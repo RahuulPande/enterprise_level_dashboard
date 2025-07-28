@@ -1,0 +1,91 @@
+# Health Monitor AI - Cursor Rules
+
+## Project Context
+Building a comprehensive IT application health monitoring dashboard for banking environments with 40+ features in 5 days using mock data.
+
+## Architecture Decisions
+- Next.js 14 with App Router
+- TypeScript for all code
+- Tailwind CSS + shadcn/ui for styling
+- React Query for state management
+- Zustand for global state
+- Recharts for visualizations
+- Framer Motion for animations
+
+## File Structure Rules
+```
+src/
+├── app/                    # Next.js app router pages
+├── components/            
+│   ├── dashboard/         # Dashboard-specific components
+│   ├── charts/           # Reusable chart components
+│   ├── ui/               # Base UI components
+│   └── layouts/          # Layout components
+├── lib/
+│   ├── mock-data/        # Mock data generators
+│   ├── hooks/            # Custom React hooks
+│   ├── utils/            # Utility functions
+│   └── types/            # TypeScript types
+├── services/             # Mock API services
+└── store/               # Zustand stores
+```
+
+## Mock Data Principles
+- All data should tell a story
+- Generate realistic patterns (morning spikes, lunch dips)
+- Include dramatic scenarios for demos
+- Maintain relationships between data points
+- Use temporal patterns that make sense
+
+## Component Guidelines
+- Every component should have loading and error states
+- Use mock data that updates in real-time
+- Include smooth transitions and animations
+- Components should be responsive by default
+- Prefer composition over props drilling
+
+## Performance Rules
+- Virtualize lists over 50 items
+- Debounce search inputs (300ms)
+- Use React.memo for expensive components
+- Lazy load dashboard sections
+- Optimize re-renders with proper keys
+
+## Demo Optimizations
+- Add keyboard shortcuts for demo scenarios (Ctrl+1, Ctrl+2, etc.)
+- Include a demo mode toggle
+- Pre-load impressive data scenarios
+- Add subtle animations that catch the eye
+- Ensure everything works offline
+
+## TypeScript Rules
+- Use interfaces for component props
+- Avoid 'any' type - use 'unknown' if needed
+- Define all API response types
+- Use const assertions for constants
+- Leverage discriminated unions for state
+
+## Quick Patterns
+When creating a new dashboard section:
+1. Create mock data generator first
+2. Define TypeScript interfaces
+3. Build static component
+4. Add real-time updates
+5. Implement interactive features
+6. Add animations last
+
+## Time-Saving Shortcuts
+- Use `rsfc` snippet for components
+- Leverage Copilot++ aggressively
+- Use Cmd+K for quick refactors
+- Copy patterns from examples/ folder
+- Don't over-engineer - this is a demo
+
+## Critical Features Priority
+1. Health Monitoring Dashboard (Core)
+2. AI Defect Matching (Wow Factor)
+3. Release Readiness (Business Value)
+4. Real-time Alerts (Visual Impact)
+5. Executive Dashboard (Decision Makers)
+
+Remember: Perfect is the enemy of done. Make it work, make it pretty, make it impressive - in that order.
