@@ -50,6 +50,8 @@ import {
 import { ActivityStream } from '@/components/ui/ActivityStream';
 import { IncidentHeatmap } from '@/components/ui/IncidentHeatmap';
 import { ParticleBackground, FloatingElements } from '@/components/ui/ParticleBackground';
+import { SuccessStories } from '@/components/ui/SuccessStories';
+import { InteractiveROI } from '@/components/ui/InteractiveROI';
 
 // Animated Counter Component
 const AnimatedCounter = ({ 
@@ -590,124 +592,29 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Cost Breakdown */}
-            <div className="space-y-8">
-              <div 
-                className="rounded-2xl p-8 border border-white/20 shadow-2xl"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)'
-                }}
-              >
-                <h3 className="text-2xl font-bold text-white mb-6 drop-shadow-md">Daily Operational Costs</h3>
-                
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <Globe className="w-5 h-5 text-blue-600" />
-                      <span className="font-semibold text-gray-900">Zurich Team (30 people)</span>
-                    </div>
-                    <span className="text-xl font-bold text-blue-600">
-                      <AnimatedCounter end={24000} prefix="$" suffix="/day" />
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-green-50 rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <Users className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold text-gray-900">Pune Team (70 people)</span>
-                    </div>
-                    <span className="text-xl font-bold text-green-600">
-                      <AnimatedCounter end={21000} prefix="$" suffix="/day" />
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg border-2 border-gray-300">
-                    <span className="text-lg font-bold text-gray-900">Total Daily Cost</span>
-                    <span className="text-2xl font-bold text-gray-900">
-                      <AnimatedCounter end={45000} prefix="$" suffix="/day" />
-                    </span>
-                  </div>
-                </div>
-              </div>
+          <InteractiveROI />
+        </div>
+      </motion.section>
 
-              <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold mb-6">Annual ROI Impact</h3>
-                <div className="text-center">
-                  <div className="text-5xl font-bold mb-2">
-                    <AnimatedCounter 
-                      end={roiData.totalAnnualSavings / 1000000} 
-                      prefix="$" 
-                      suffix="M" 
-                      decimals={1}
-                      duration={4000}
-                    />
-                  </div>
-                  <p className="text-green-100 text-lg">Total Annual Savings</p>
-                  <div className="mt-4 text-sm bg-white/20 rounded-lg p-3">
-                    <div className="flex justify-between mb-1">
-                      <span>Payback Period:</span>
-                      <span className="font-bold">17 days</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>5-Year NPV:</span>
-                      <span className="font-bold">$51.2M</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Savings Breakdown */}
-            <div className="space-y-6">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 shadow-lg">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Efficiency Gains</h3>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-gray-900">Incident Resolution Time</div>
-                      <div className="text-sm text-gray-600">25% reduction</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xl font-bold text-red-600">
-                        <AnimatedCounter end={11250} prefix="$" suffix="/day" />
-                      </div>
-                      <div className="text-sm text-gray-500">saved</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-gray-900">Manual Monitoring</div>
-                      <div className="text-sm text-gray-600">40% reduction</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xl font-bold text-yellow-600">
-                        <AnimatedCounter end={18000} prefix="$" suffix="/day" />
-                      </div>
-                      <div className="text-sm text-gray-500">saved</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg">
-                    <div>
-                      <div className="font-semibold text-gray-900">Downtime Prevention</div>
-                      <div className="text-sm text-gray-600">15% reduction</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xl font-bold text-purple-600">
-                        <AnimatedCounter end={500} prefix="$" suffix="K/month" />
-                      </div>
-                      <div className="text-sm text-gray-500">saved</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Success Stories Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-20 px-6"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Real Success Stories
+            </h2>
+            <p className="text-xl text-gray-600">
+              See how our AI-powered solution delivers measurable results
+            </p>
           </div>
+          
+          <SuccessStories />
         </div>
       </motion.section>
 
@@ -789,152 +696,6 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                 delay={index * 0.1}
               />
             ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Impact Metrics Dashboard */}
-      <motion.section 
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="py-20 px-6"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Measurable Impact Across All Metrics
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real performance improvements in your critical KPIs
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Time Savings Chart */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Time Savings Trend</h3>
-                <TrendingUp className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={timeSavingsData}>
-                    <defs>
-                      <linearGradient id="timeSavingsGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`${value} hours`, 'Time Saved']} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="hours" 
-                      stroke="#10B981" 
-                      strokeWidth={3}
-                      fill="url(#timeSavingsGradient)" 
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-              <p className="text-sm text-gray-600 mt-2">
-                Monthly hours saved through automation and predictive monitoring
-              </p>
-            </div>
-
-            {/* Cost Reduction Chart */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Monthly Savings</h3>
-                <DollarSign className="w-6 h-6 text-blue-600" />
-              </div>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={costReductionData}>
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`$${(value as number).toLocaleString()}`, 'Savings']} />
-                    <Bar 
-                      dataKey="savings" 
-                      fill="url(#costGradient)"
-                      radius={[4, 4, 0, 0]}
-                    />
-                    <defs>
-                      <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                      </linearGradient>
-                    </defs>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <p className="text-sm text-gray-600 mt-2">
-                Cumulative monthly savings from operational improvements
-              </p>
-            </div>
-
-            {/* Incident Prevention */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">AI Incident Prevention</h3>
-                <Brain className="w-6 h-6 text-purple-600" />
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-purple-600 mb-2">
-                  <AnimatedCounter end={1847} />
-                </div>
-                <p className="text-lg text-gray-700 mb-4">Incidents Prevented</p>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="bg-purple-50 rounded-lg p-3">
-                    <div className="font-bold text-purple-600">
-                      <AnimatedCounter end={180} />
-                    </div>
-                    <div className="text-gray-600">This Month</div>
-                  </div>
-                  <div className="bg-purple-50 rounded-lg p-3">
-                    <div className="font-bold text-purple-600">97.2%</div>
-                    <div className="text-gray-600">Accuracy</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Team Efficiency */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Team Efficiency</h3>
-                <Users className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Incidents/Month</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-red-500 line-through">45</span>
-                    <ArrowRight className="w-4 h-4 text-gray-400" />
-                    <span className="text-green-600 font-bold">12</span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">MTTR (hours)</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-red-500 line-through">6.0</span>
-                    <ArrowRight className="w-4 h-4 text-gray-400" />
-                    <span className="text-green-600 font-bold">1.5</span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Team Satisfaction</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-red-500 line-through">65%</span>
-                    <ArrowRight className="w-4 h-4 text-gray-400" />
-                    <span className="text-green-600 font-bold">92%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </motion.section>
