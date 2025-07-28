@@ -38,6 +38,17 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import useDashboardStore from '@/store/dashboard';
+import { 
+  AnimatedCircularProgress, 
+  GlowingAnimatedCounter, 
+  AnimatedSparkline, 
+  LiveIndicator, 
+  PulsingMetricCard,
+  MonthlySavingsChart,
+  SystemHealthGauge
+} from '@/components/ui/AnimatedMetrics';
+import { ActivityStream } from '@/components/ui/ActivityStream';
+import { IncidentHeatmap } from '@/components/ui/IncidentHeatmap';
 
 // Animated Counter Component
 const AnimatedCounter = ({ 
@@ -313,7 +324,7 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
     { name: 'After', incidents: 12, mttr: 1.5, satisfaction: 92 }
   ];
 
-  // Live metrics
+  // Live metrics with enhanced data
   const liveMetrics = useMemo(() => {
     const healthyServices = services.filter(s => s.status === 'healthy').length;
     const totalServices = services.length;
@@ -323,7 +334,22 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
       currentSavings: roiData.totalAnnualSavings / 1000000, // Convert to millions
       uptime: parseFloat(uptime),
       issuesPrevented: 1847,
-      timeSaved: 4800
+      timeSaved: 4800,
+      systemHealth: 97.2, // Enhanced system health score
+      monthlySavings: [
+        { month: 'Jan', savings: 650000 },
+        { month: 'Feb', savings: 720000 },
+        { month: 'Mar', savings: 810000 },
+        { month: 'Apr', savings: 890000 },
+        { month: 'May', savings: 920000 },
+        { month: 'Jun', savings: 980000 },
+        { month: 'Jul', savings: 1050000 },
+        { month: 'Aug', savings: 1120000 },
+        { month: 'Sep', savings: 1180000 },
+        { month: 'Oct', savings: 1250000 },
+        { month: 'Nov', savings: 1320000 },
+        { month: 'Dec', savings: 1400000 }
+      ]
     };
   }, [services, roiData.totalAnnualSavings]);
 
@@ -465,54 +491,56 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
           >
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+            <PulsingMetricCard delay={0.4}>
               <div className="flex items-center justify-center mb-2">
                 <DollarSign className="w-6 h-6 text-green-600 mr-2" />
                 <span className="text-sm font-semibold text-gray-600">Current Savings</span>
               </div>
               <div className="text-2xl md:text-3xl font-bold text-green-600">
-                <AnimatedCounter 
+                <GlowingAnimatedCounter 
                   end={liveMetrics.currentSavings} 
                   prefix="$" 
                   suffix="M" 
                   decimals={1}
+                  glowColor="#10B981"
                   duration={3000}
                 />
               </div>
-              <MiniSparkline data={[12.2, 13.5, 14.8, 15.4, 16.1, 16.7]} color="#059669" />
-            </div>
+              <AnimatedSparkline data={[12.2, 13.5, 14.8, 15.4, 16.1, 16.7]} />
+            </PulsingMetricCard>
 
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+            <PulsingMetricCard delay={0.5}>
               <div className="flex items-center justify-center mb-2">
                 <Gauge className="w-6 h-6 text-blue-600 mr-2" />
                 <span className="text-sm font-semibold text-gray-600">Uptime</span>
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-blue-600">
-                <AnimatedCounter 
-                  end={liveMetrics.uptime} 
-                  suffix="%" 
-                  decimals={2}
-                  duration={2500}
+              <div className="flex justify-center">
+                <AnimatedCircularProgress 
+                  percentage={liveMetrics.uptime} 
+                  size={80} 
+                  strokeWidth={8}
+                  color="#2563EB"
                 />
               </div>
-              <MiniSparkline data={[99.1, 99.3, 99.5, 99.7, 99.8, 99.9]} color="#2563EB" />
-            </div>
+              <AnimatedSparkline data={[99.1, 99.3, 99.5, 99.7, 99.8, 99.9]} />
+            </PulsingMetricCard>
 
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+            <PulsingMetricCard delay={0.6}>
               <div className="flex items-center justify-center mb-2">
                 <Shield className="w-6 h-6 text-purple-600 mr-2" />
                 <span className="text-sm font-semibold text-gray-600">Issues Prevented</span>
               </div>
               <div className="text-2xl md:text-3xl font-bold text-purple-600">
-                <AnimatedCounter 
+                <GlowingAnimatedCounter 
                   end={liveMetrics.issuesPrevented} 
+                  glowColor="#EF4444"
                   duration={2000}
                 />
               </div>
-              <MiniSparkline data={[1200, 1350, 1480, 1620, 1750, 1847]} color="#7C3AED" />
-            </div>
+              <AnimatedSparkline data={[1200, 1350, 1480, 1620, 1750, 1847]} />
+            </PulsingMetricCard>
 
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+            <PulsingMetricCard delay={0.7}>
               <div className="flex items-center justify-center mb-2">
                 <Clock className="w-6 h-6 text-orange-600 mr-2" />
                 <span className="text-sm font-semibold text-gray-600">Time Saved</span>
@@ -524,8 +552,8 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                   duration={2200}
                 />
               </div>
-              <MiniSparkline data={[2800, 3200, 3600, 4000, 4400, 4800]} color="#EA580C" />
-            </div>
+              <AnimatedSparkline data={[2800, 3200, 3600, 4000, 4400, 4800]} />
+            </PulsingMetricCard>
           </motion.div>
         </div>
       </motion.section>
@@ -658,6 +686,47 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Enhanced Data Visualizations */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-20 px-6 bg-gradient-to-br from-gray-50 to-blue-50"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Real-Time Data Insights
+            </h2>
+            <p className="text-xl text-gray-600">
+              Live analytics and performance metrics
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {/* Monthly Savings Trend Chart */}
+            <MonthlySavingsChart data={liveMetrics.monthlySavings} />
+            
+            {/* System Health Gauge */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">System Health Score</h3>
+              <div className="flex justify-center">
+                <SystemHealthGauge score={liveMetrics.systemHealth} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Incident Prevention Heatmap */}
+            <IncidentHeatmap />
+            
+            {/* Live Activity Stream */}
+            <ActivityStream />
           </div>
         </div>
       </motion.section>
