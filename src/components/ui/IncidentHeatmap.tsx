@@ -69,10 +69,15 @@ export const IncidentHeatmap = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50"
+      className="rounded-xl p-6 border border-white/20 shadow-2xl"
+      style={{
+        background: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)'
+      }}
     >
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Incident Prevention Heatmap</h3>
-      <p className="text-sm text-gray-600 mb-6">Prevented incidents over the last 30 days</p>
+      <h3 className="text-lg font-semibold text-white mb-4 drop-shadow-md">Incident Prevention Heatmap</h3>
+      <p className="text-sm text-white/80 mb-6">Prevented incidents over the last 30 days</p>
       
       <div className="grid grid-cols-7 gap-1 mb-4">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (

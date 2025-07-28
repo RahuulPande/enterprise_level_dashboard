@@ -333,25 +333,30 @@ export const PulsingMetricCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={controls}
       whileHover={{
-        scale: 1.02,
-        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
+        scale: 1.05,
+        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)"
       }}
-      className={`relative p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300 ${className}`}
+      className={`relative p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 ${className}`}
+      style={{
+        background: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)'
+      }}
     >
       <motion.div
         animate={{
           boxShadow: [
-            "0 0 0 rgba(16, 185, 129, 0)",
-            "0 0 20px rgba(16, 185, 129, 0.1)",
-            "0 0 0 rgba(16, 185, 129, 0)"
+            "0 0 0 rgba(255, 255, 255, 0)",
+            "0 0 30px rgba(255, 255, 255, 0.2)",
+            "0 0 0 rgba(255, 255, 255, 0)"
           ]
         }}
         transition={{
-          duration: 3,
+          duration: 4,
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute inset-0 rounded-xl pointer-events-none"
+        className="absolute inset-0 rounded-2xl pointer-events-none"
       />
       {children}
     </motion.div>
@@ -379,9 +384,14 @@ export const MonthlySavingsChart = ({ data }: { data: any[] }) => {
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={controls}
-      className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50"
+      className="rounded-xl p-6 border border-white/20 shadow-2xl"
+      style={{
+        background: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)'
+      }}
     >
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Savings Trend</h3>
+      <h3 className="text-lg font-semibold text-white mb-4 drop-shadow-md">Monthly Savings Trend</h3>
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={data}>
           <defs>
