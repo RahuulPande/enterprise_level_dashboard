@@ -40,6 +40,7 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import useDashboardStore from '@/store/dashboard';
+import { formatNumber } from '@/lib/utils/formatters';
 
 // Animated Counter Component
 const AnimatedCounter = ({ 
@@ -90,16 +91,16 @@ const AnimatedCounter = ({
     };
   }, [end, duration]);
 
-  const formatNumber = (num: number) => {
+  const formatNumberDisplay = (num: number) => {
     if (decimals === 0) {
       return Math.floor(num).toLocaleString();
     }
-    return num.toFixed(decimals);
+    return formatNumber(num, decimals);
   };
 
   return (
     <span className={className}>
-      {prefix}{formatNumber(count)}{suffix}
+      {prefix}{formatNumberDisplay(count)}{suffix}
     </span>
   );
 };
@@ -261,7 +262,7 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
   const systemHealth = useMemo(() => {
     const healthyServices = services.filter(s => s.status === 'healthy').length;
     const totalServices = services.length;
-    return totalServices > 0 ? ((healthyServices / totalServices) * 100).toFixed(1) : '97.2';
+    return totalServices > 0 ? formatNumber(((healthyServices / totalServices) * 100), 1) : '97.2';
   }, [services]);
 
   // Success stories data

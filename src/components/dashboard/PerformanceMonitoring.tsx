@@ -21,8 +21,9 @@ import {
   Timer,
   Eye
 } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend, AreaChart, Area } from 'recharts';
+import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import useDashboardStore from '@/store/dashboard';
+import { formatNumber, formatPercentage } from '@/lib/utils/formatters';
 
 interface PerformanceOverview {
   avgResponseTime: number;
