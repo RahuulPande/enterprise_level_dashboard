@@ -145,7 +145,7 @@ export default function Sidebar({
   return (
     <>
       {/* Mobile/Tablet Menu Button */}
-      <div className="md:hidden fixed top-4 left-4 z-50">
+      <div className="md:hidden fixed top-4 left-4 z-60">
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="p-2 bg-white rounded-lg shadow-lg border hover:bg-gray-50 transition-colors"
@@ -161,7 +161,7 @@ export default function Sidebar({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            className="md:hidden fixed inset-0 bg-black/50 z-45"
             onClick={() => setIsMobileOpen(false)}
           />
         )}
