@@ -41,6 +41,7 @@ import {
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import useDashboardStore from '@/store/dashboard';
 import { formatNumber } from '@/lib/utils/formatters';
+import CaseStudiesModal from '@/components/ui/CaseStudiesModal';
 
 // Animated Counter Component
 const AnimatedCounter = ({ 
@@ -258,6 +259,124 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
   const [isStoryPlaying, setIsStoryPlaying] = useState(true);
   const [activitySidebarOpen, setActivitySidebarOpen] = useState(false);
   const [isDemoRunning, setIsDemoRunning] = useState(false);
+  const [isSavingsModalOpen, setSavingsModalOpen] = useState(false);
+  const [isCaseStudiesModalOpen, setCaseStudiesModalOpen] = useState(false);
+  
+  // ROI Calculator state - Initialize with baseline values that show $16.7M
+  const [zurichTeamSize, setZurichTeamSize] = useState(30);
+  const [puneTeamSize, setPuneTeamSize] = useState(70);
+
+  // ROI Calculations
+  const roiCalculation = useMemo(() => {
+    const zurichDailyCost = zurichTeamSize * 800; // $800 per person per day in Zurich
+    const puneDailyCost = puneTeamSize * 300; // $300 per person per day in Pune
+    const totalDailyCost = zurichDailyCost + puneDailyCost;
+    const annualCost = totalDailyCost * 250; // 250 working days
+    
+    // Calculate savings based on specific improvements
+    const totalTeam = zurichTeamSize + puneTeamSize;
+    
+    // 1. Incident Response Improvement (40% faster)
+    // Average 20 incidents per day, 6 hours saved per incident
+    const incidentCostPerHour = 500; // Average cost of incident per hour
+    const dailyIncidents = 20;
+    const hoursSavedPerIncident = 6 * 0.4; // 40% of 6 hours
+    const incidentSavings = dailyIncidents * hoursSavedPerIncident * incidentCostPerHour * 250;
+    
+    // 2. Manual Monitoring Reduction (60% reduced)
+    // 2 hours per day per person saved on monitoring
+    const monitoringHoursPerDay = 2;
+    const monitoringCostPerHour = 150; // Blended rate for monitoring
+    const monitoringSavings = totalTeam * monitoringHoursPerDay * 0.6 * monitoringCostPerHour * 250;
+    
+    // 3. Downtime Prevention (90% reduction)
+    // Average monthly downtime: 180 minutes, cost: $5,600 per minute
+    const monthlyDowntimeMinutes = 180;
+    const downtimeCostPerMinute = 5600;
+    const downtimeSavings = (monthlyDowntimeMinutes * 0.9 * downtimeCostPerMinute * 12);
+    
+    // Total annual savings
+    const annualSavings = incidentSavings + monitoringSavings + downtimeSavings;
+    
+    // Calculate effective efficiency percentage
+    const efficiencyGains = Math.round((annualSavings / annualCost) * 100);
+    
+    // Other metrics
+    const monthlyIncidentReduction = Math.floor(totalTeam * 0.8); // ~0.8 incidents prevented per person
+    const uptimeImprovement = 99.5 + (Math.min(efficiencyGains/100, 1) * 0.2); // Max 99.7% uptime
+    
+    return {
+      zurichDailyCost,
+      puneDailyCost,
+      totalDailyCost,
+      annualCost,
+      efficiencyGains,
+      annualSavings,
+      monthlyIncidentReduction,
+      uptimeImprovement: Math.min(uptimeImprovement, 99.99),
+      paybackPeriod: Math.round((500000) / (annualSavings / 12)), // Assuming $500k implementation cost
+      // Detailed savings breakdown
+      incidentSavings,
+      monitoringSavings,
+      downtimeSavings
+    };
+  }, [zurichTeamSize, puneTeamSize]);
+
+  // Custom Slider Component
+  const CustomSlider = ({ 
+    label, 
+    value, 
+    onChange, 
+    min, 
+    max, 
+    color = "blue",
+    location 
+  }: {
+    label: string;
+    value: number;
+    onChange: (value: number) => void;
+    min: number;
+    max: number;
+    color?: string;
+    location: string;
+  }) => {
+    const percentage = ((value - min) / (max - min)) * 100;
+    const colorClasses = color === "blue" ? "bg-blue-600" : "bg-green-600";
+    
+    return (
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label className="block text-sm font-medium text-gray-700">
+            {label}: {value} people
+          </label>
+          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+            {location}
+          </span>
+        </div>
+        <div className="relative">
+          <input
+            type="range"
+            min={min}
+            max={max}
+            value={value}
+            onChange={(e) => onChange(parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+            style={{
+              background: `linear-gradient(to right, ${color === "blue" ? "#3B82F6" : "#10B981"} 0%, ${color === "blue" ? "#3B82F6" : "#10B981"} ${percentage}%, #E5E7EB ${percentage}%, #E5E7EB 100%)`
+            }}
+          />
+          <div 
+            className={`absolute w-4 h-4 ${colorClasses} border-2 border-white rounded-full shadow-lg -mt-1 pointer-events-none`}
+            style={{ left: `calc(${percentage}% - 8px)`, top: '0px' }}
+          ></div>
+        </div>
+        <div className="flex justify-between text-xs text-gray-500">
+          <span>{min}</span>
+          <span>{max}</span>
+        </div>
+      </div>
+    );
+  };
 
   // Live Demo Tour - showcases different sections of the dashboard
   const handleLiveDemo = async () => {
@@ -265,46 +384,131 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
     
     setIsDemoRunning(true);
     
-    // Demo tour sequence
+    // Comprehensive demo tour sequence covering all major sections and key tabs
     const demoSequence = [
-      { section: 'service-health', delay: 1000, message: 'Real-time Service Health Monitoring' },
-      { section: 'incidents-alerts', delay: 3000, message: 'AI-Powered Incident Detection' },
-      { section: 'ai-intelligence', delay: 3000, message: 'Predictive Analytics in Action' },
-      { section: 'performance', delay: 3000, message: 'Performance Monitoring Dashboard' },
-      { section: 'overview', delay: 2000, message: 'Demo Complete!' }
+      // Service Health Section with different views
+      { section: 'service-health', delay: 1000, message: '🔍 Service Health Monitoring - Grid View' },
+      { section: 'service-health', delay: 2500, message: '📋 Service Health - List View (coming up...)' },
+      { section: 'service-health', delay: 2500, message: '🌐 Service Health - Topology View (coming up...)' },
+      
+      // Incidents & Alerts with tabs
+      { section: 'incidents-alerts', delay: 3000, message: '🚨 Live Alerts & Incident Detection' },
+      { section: 'incidents-alerts', delay: 2500, message: '📊 Incident History & Analysis' },
+      
+      // AI Intelligence section with different tabs
+      { section: 'ai-intelligence', delay: 3000, message: '🧠 AI Intelligence - Insights Panel' },
+      { section: 'ai-intelligence', delay: 2500, message: '🎯 AI Defect Matching in Action' },
+      { section: 'ai-intelligence', delay: 2500, message: '🔮 Predictive Analytics Engine' },
+      
+      // Release Management
+      { section: 'release-management', delay: 3000, message: '🚀 Release Readiness Dashboard' },
+      { section: 'release-management', delay: 2500, message: '🧪 Test Management System' },
+      
+      // Analytics section with comprehensive tabs
+      { section: 'analytics', delay: 3000, message: '📈 Performance Analytics' },
+      { section: 'analytics', delay: 2500, message: '💰 Cost Analysis & Optimization' },
+      { section: 'analytics', delay: 2500, message: '📄 Log Stream Analysis' },
+      { section: 'analytics', delay: 2500, message: '📊 Business Impact Metrics' },
+      
+      // Settings and Configuration
+      { section: 'settings', delay: 3000, message: '⚙️ Settings & Configuration' },
+      { section: 'settings', delay: 2500, message: '🔒 Security & Compliance Dashboard' },
+      { section: 'settings', delay: 2500, message: '🤝 Team Collaboration Hub' },
+      
+      // Return to overview
+      { section: 'overview', delay: 2500, message: '✨ Demo Complete! Welcome back to Overview' }
     ];
 
-    // Show demo notification
-    const showDemoMessage = (message: string) => {
-      // Create a temporary notification
+    // Enhanced demo notification with better styling and animations
+    const showDemoMessage = (message: string, isComplete: boolean = false) => {
+      // Remove any existing notifications
+      const existingNotification = document.querySelector('.demo-notification');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+
+      // Create a new notification
       const notification = document.createElement('div');
-      notification.className = 'fixed top-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+      notification.className = `demo-notification fixed top-4 right-4 bg-gradient-to-r ${
+        isComplete 
+          ? 'from-green-500 to-green-600' 
+          : 'from-blue-500 to-purple-600'
+      } text-white px-6 py-4 rounded-xl shadow-2xl z-50 transform transition-all duration-500 max-w-sm`;
+      
       notification.innerHTML = `
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-          </svg>
-          <span>${message}</span>
+        <div class="flex items-start space-x-3">
+          <div class="flex-shrink-0 mt-0.5">
+            ${isComplete 
+              ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>'
+              : '<svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>'
+            }
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium leading-5">
+              ${message}
+            </div>
+            <div class="text-xs opacity-90 mt-1">
+              ${isComplete ? 'All features showcased!' : 'Live Demo in Progress...'}
+            </div>
+          </div>
         </div>
       `;
+      
+      // Add entrance animation
+      notification.style.transform = 'translateX(100%) scale(0.8)';
+      notification.style.opacity = '0';
+      
       document.body.appendChild(notification);
       
+      // Trigger entrance animation
+      requestAnimationFrame(() => {
+        notification.style.transform = 'translateX(0) scale(1)';
+        notification.style.opacity = '1';
+      });
+      
+      // Auto-remove after delay
+      const removeDelay = isComplete ? 4000 : 3500;
       setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 300);
-      }, 2500);
+        if (notification.parentNode) {
+          notification.style.transform = 'translateX(100%) scale(0.8)';
+          notification.style.opacity = '0';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              document.body.removeChild(notification);
+            }
+          }, 500);
+        }
+      }, removeDelay);
     };
 
     try {
+      let stepCount = 0;
+      const totalSteps = demoSequence.length;
+      
       for (const step of demoSequence) {
         await new Promise(resolve => setTimeout(resolve, step.delay));
-        showDemoMessage(step.message);
+        stepCount++;
+        const isComplete = stepCount === totalSteps;
+        
+        // Enhanced message with step counter
+        const enhancedMessage = `${step.message} (${stepCount}/${totalSteps})`;
+        showDemoMessage(enhancedMessage, isComplete);
         onNavigate(step.section);
+        
+        // Add a subtle page highlight effect
+        const pageElement = document.querySelector('[data-section]') as HTMLElement || document.body;
+        pageElement.style.filter = 'brightness(1.05)';
+        setTimeout(() => {
+          pageElement.style.filter = '';
+        }, 1000);
       }
     } catch (error) {
       console.error('Demo tour error:', error);
+      const errorNotification = document.querySelector('.demo-notification');
+      if (errorNotification) {
+        errorNotification.remove();
+      }
+      showDemoMessage('❌ Demo tour encountered an error', true);
     } finally {
       setIsDemoRunning(false);
     }
@@ -396,6 +600,39 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50" data-section="overview">
+      {/* Add custom styles for the slider */}
+      <style jsx>{`
+        .slider::-webkit-slider-thumb {
+          appearance: none;
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          background: #3B82F6;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .slider::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .slider::-moz-range-thumb {
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          background: #3B82F6;
+          border: 2px solid #ffffff;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .slider::-moz-range-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+      `}</style>
+
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -437,7 +674,7 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
               </div>
               <div className="text-gray-600 mb-3">Annual Savings</div>
               <button
-                onClick={() => setShowSavingsModal(true)}
+                onClick={() => setSavingsModalOpen(true)}
                 className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors flex items-center"
               >
                 How we calculate this
@@ -532,10 +769,10 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
               <div className="text-center">
                 <div className="mb-4">
                   <p className="text-sm text-gray-600 mb-2">
-                    Experience our AI-powered dashboard features in action
+                    Experience our complete AI-powered dashboard in action
                   </p>
                   <p className="text-xs text-gray-500">
-                    ✨ Guided tour through Service Health, AI Intelligence, Performance Monitoring
+                    ✨ Comprehensive tour: Service Health • Incidents • AI Intelligence • Release Management • Analytics • Settings
                   </p>
                 </div>
                 <button 
@@ -574,49 +811,149 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                className="space-y-8"
              >
                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 shadow-lg">
-                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Interactive ROI Calculator</h3>
+                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Interactive ROI Calculator</h3>
                  <p className="text-gray-600 mb-6">Configure your team size and see real-time savings calculations.</p>
+                 
+                 {/* Current Team Overview */}
+                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+                   <h4 className="font-semibold text-blue-900 mb-2">Current Team Configuration</h4>
+                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                     <div>
+                       <div className="font-medium text-blue-800">Total Team</div>
+                       <div className="text-xl font-bold text-blue-900">{zurichTeamSize + puneTeamSize}</div>
+                     </div>
+                     <div>
+                       <div className="font-medium text-blue-800">Zurich</div>
+                       <div className="text-xl font-bold text-blue-900">{zurichTeamSize}</div>
+                     </div>
+                     <div>
+                       <div className="font-medium text-blue-800">Pune</div>
+                       <div className="text-xl font-bold text-blue-900">{puneTeamSize}</div>
+                     </div>
+                     <div>
+                       <div className="font-medium text-blue-800">Daily Cost</div>
+                       <div className="text-xl font-bold text-blue-900">${roiCalculation.totalDailyCost.toLocaleString()}</div>
+                     </div>
+                   </div>
+                 </div>
                  
                  <div className="grid md:grid-cols-2 gap-8">
                    <div>
-                     <h4 className="font-semibold text-gray-900 mb-4">Team Configuration</h4>
-                     <div className="space-y-4">
-                       <div>
-                         <label className="block text-sm font-medium text-gray-700 mb-2">Zurich Team Size: 30</label>
-                         <div className="w-full bg-gray-200 rounded-lg h-2">
-                           <div className="bg-blue-600 h-2 rounded-lg" style={{ width: '30%' }}></div>
+                     <h4 className="font-semibold text-gray-900 mb-6">Team Configuration</h4>
+                     <div className="space-y-6">
+                       <CustomSlider
+                         label="Zurich Team Size"
+                         value={zurichTeamSize}
+                         onChange={setZurichTeamSize}
+                         min={10}
+                         max={100}
+                         color="blue"
+                         location="Switzerland 🇨🇭"
+                       />
+                       <CustomSlider
+                         label="Pune Team Size"
+                         value={puneTeamSize}
+                         onChange={setPuneTeamSize}
+                         min={20}
+                         max={200}
+                         color="green"
+                         location="India 🇮🇳"
+                       />
+                     </div>
+                     
+                     {/* Cost Breakdown */}
+                     <div className="mt-6 bg-gray-50 rounded-lg p-4">
+                       <h5 className="font-medium text-gray-900 mb-3">Daily Operational Costs</h5>
+                       <div className="space-y-2 text-sm">
+                         <div className="flex justify-between">
+                           <span className="text-gray-900">Zurich Team ({zurichTeamSize} people)</span>
+                           <span className="font-medium text-gray-900">${roiCalculation.zurichDailyCost.toLocaleString()}/day</span>
                          </div>
-                         <div className="text-sm text-gray-500 mt-1">10 - 100 people</div>
-                       </div>
-                       <div>
-                         <label className="block text-sm font-medium text-gray-700 mb-2">Pune Team Size: 70</label>
-                         <div className="w-full bg-gray-200 rounded-lg h-2">
-                           <div className="bg-green-600 h-2 rounded-lg" style={{ width: '70%' }}></div>
+                         <div className="flex justify-between">
+                           <span className="text-gray-900">Pune Team ({puneTeamSize} people)</span>
+                           <span className="font-medium text-gray-900">${roiCalculation.puneDailyCost.toLocaleString()}/day</span>
                          </div>
-                         <div className="text-sm text-gray-500 mt-1">20 - 200 people</div>
+                         <div className="flex justify-between text-gray-900 font-semibold border-t pt-2">
+                           <span>Total Daily Cost</span>
+                           <span>${roiCalculation.totalDailyCost.toLocaleString()}/day</span>
+                         </div>
                        </div>
                      </div>
                    </div>
                    
                    <div>
-                     <h4 className="font-semibold text-gray-900 mb-4">Annual Savings Calculation</h4>
-                     <div className="space-y-3">
-                       <div className="flex justify-between">
-                         <span className="text-gray-600">Daily Team Cost:</span>
-                         <span className="font-semibold">$45,000</span>
+                     <h4 className="font-semibold text-gray-900 mb-6">Annual Savings Calculation</h4>
+                     <div className="space-y-4">
+                       <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                         <div className="flex justify-between items-center mb-2">
+                           <span className="text-green-800 font-medium">Total Cost Reduction:</span>
+                           <span className="text-2xl font-bold text-green-600">{roiCalculation.efficiencyGains}%</span>
+                         </div>
+                         <div className="w-full bg-green-200 rounded-full h-2 overflow-hidden">
+                           <div 
+                             className="bg-green-600 h-2 rounded-full transition-all duration-500 max-w-full"
+                             style={{ width: `${Math.min(roiCalculation.efficiencyGains, 100)}%` }}
+                           ></div>
+                         </div>
+                         <div className="mt-3 space-y-2">
+                           <div className="flex justify-between text-sm">
+                             <span className="text-gray-700">🕒 Incident Response Time</span>
+                             <span className="font-medium text-gray-900">40% faster</span>
+                           </div>
+                           <div className="flex justify-between text-sm">
+                             <span className="text-gray-700">🔍 Manual Monitoring Effort</span>
+                             <span className="font-medium text-gray-900">60% reduced</span>
+                           </div>
+                           <div className="flex justify-between text-sm">
+                             <span className="text-gray-700">⚡ System Downtime</span>
+                             <span className="font-medium text-gray-900">90% prevented</span>
+                           </div>
+                           <div className="mt-2 text-xs text-gray-600">
+                             Combined impact leads to {roiCalculation.efficiencyGains}% total cost reduction through faster resolution, 
+                             automated monitoring, and prevented outages.
+                           </div>
+                         </div>
                        </div>
-                       <div className="flex justify-between">
-                         <span className="text-gray-600">Efficiency Gains:</span>
-                         <span className="font-semibold text-green-600">65%</span>
-                       </div>
-                       <div className="flex justify-between text-lg font-bold border-t pt-2">
-                         <span>Total Annual Savings:</span>
-                         <span className="text-green-600">$16.7M</span>
+                       
+                       <div className="space-y-3">
+                         <div className="flex justify-between">
+                           <span className="text-gray-600">Annual Operational Cost:</span>
+                           <span className="font-semibold">${formatNumber(roiCalculation.annualCost / 1000000, 1)}M</span>
+                         </div>
+                         <div className="flex justify-between">
+                           <span className="text-gray-600">Projected Uptime:</span>
+                           <span className="font-semibold text-green-600">{formatNumber(roiCalculation.uptimeImprovement, 2)}%</span>
+                         </div>
+                         <div className="flex justify-between">
+                           <span className="text-gray-600">Incidents Prevented/Month:</span>
+                           <span className="font-semibold text-green-600">{roiCalculation.monthlyIncidentReduction}</span>
+                         </div>
+                         <div className="flex justify-between">
+                           <span className="text-gray-600">Payback Period:</span>
+                           <span className="font-semibold text-green-600">{roiCalculation.paybackPeriod} months</span>
+                         </div>
+                         <div className="flex justify-between text-lg font-bold border-t pt-3 text-green-600">
+                           <span>Total Annual Savings:</span>
+                           <span>${formatNumber(roiCalculation.annualSavings / 1000000, 1)}M</span>
+                         </div>
                        </div>
                      </div>
                      
-                     <button className="w-full mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                       Export Calculation Report
+                     <button 
+                       onClick={() => {
+                         // Generate and download a PDF report
+                         const reportData = {
+                           teamConfig: { zurich: zurichTeamSize, pune: puneTeamSize },
+                           calculations: roiCalculation,
+                           timestamp: new Date().toLocaleString()
+                         };
+                         console.log('ROI Report:', reportData);
+                         alert('ROI calculation report would be exported as PDF');
+                       }}
+                       className="w-full mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                     >
+                       <Download className="w-4 h-4" />
+                       <span>Export Calculation Report</span>
                      </button>
                    </div>
                  </div>
@@ -683,8 +1020,12 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
               </div>
 
               <div className="text-center">
-                <button className="border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                  View All Case Studies →
+                <button 
+                  onClick={() => setCaseStudiesModalOpen(true)}
+                  className="group border border-gray-300 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600 transition-colors inline-flex items-center space-x-2"
+                >
+                  <span>View All Case Studies</span>
+                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </motion.div>
@@ -765,9 +1106,13 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
 
       {/* Savings Modal */}
       <SavingsModal 
-        isOpen={showSavingsModal} 
-        onClose={() => setShowSavingsModal(false)} 
+        isOpen={isSavingsModalOpen} 
+        onClose={() => setSavingsModalOpen(false)} 
       />
+
+      {/* Modals */}
+      <SavingsModal isOpen={isSavingsModalOpen} onClose={() => setSavingsModalOpen(false)} />
+      <CaseStudiesModal isOpen={isCaseStudiesModalOpen} onClose={() => setCaseStudiesModalOpen(false)} />
     </div>
   );
 } 

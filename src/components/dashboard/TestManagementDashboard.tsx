@@ -35,25 +35,97 @@ export default function TestManagementDashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState<'today' | 'week' | 'month'>('week');
 
   // Generate mock data for demo purposes
-  const mockTestExecutions = useMemo(() => [
-    { id: '1', testCaseId: 'TC001', testCaseName: 'Login Functionality', module: 'Authentication', assignee: 'Alice Johnson', status: 'passed', executedAt: new Date(), duration: 15, priority: 'high', environment: 'SIT' },
-    { id: '2', testCaseId: 'TC002', testCaseName: 'Payment Processing', module: 'Payments', assignee: 'Bob Smith', status: 'failed', executedAt: new Date(), duration: 25, priority: 'critical', environment: 'UAT', defectId: 'DEF001' },
-    { id: '3', testCaseId: 'TC003', testCaseName: 'User Registration', module: 'Authentication', assignee: 'Carol Davis', status: 'in-progress', priority: 'medium', environment: 'SIT' },
-    { id: '4', testCaseId: 'TC004', testCaseName: 'Balance Inquiry', module: 'Account', assignee: 'David Wilson', status: 'passed', executedAt: new Date(), duration: 10, priority: 'high', environment: 'UAT' },
-    { id: '5', testCaseId: 'TC005', testCaseName: 'Transaction History', module: 'Account', assignee: 'Eve Brown', status: 'blocked', priority: 'medium', environment: 'SIT' },
-    { id: '6', testCaseId: 'TC006', testCaseName: 'Fund Transfer', module: 'Payments', assignee: 'Frank Miller', status: 'passed', executedAt: new Date(), duration: 30, priority: 'critical', environment: 'UAT' }
-  ], []);
+  const mockTestExecutions = useMemo(() => {
+    const today = new Date();
+    const generateTestCase = (id: number, date: Date) => ({
+      id: `TC${id.toString().padStart(3, '0')}`,
+      testCaseId: `TC${id.toString().padStart(3, '0')}`,
+      testCaseName: ['Login Functionality', 'Payment Processing', 'User Registration', 'Balance Inquiry', 'Transaction History', 'Fund Transfer'][id % 6],
+      module: ['Authentication', 'Payments', 'Account', 'Reports', 'Admin'][id % 5],
+      assignee: ['Alice Johnson', 'Bob Smith', 'Carol Davis', 'David Wilson', 'Eve Brown', 'Frank Miller'][id % 6],
+      status: ['passed', 'failed', 'in-progress', 'blocked', 'passed', 'passed'][id % 6],
+      executedAt: date,
+      duration: Math.floor(Math.random() * 30) + 5,
+      priority: ['critical', 'high', 'medium', 'low', 'high', 'critical'][id % 6],
+      environment: ['SIT', 'UAT', 'SIT', 'UAT', 'SIT', 'UAT'][id % 6],
+      defectId: id % 6 === 1 ? `DEF${id.toString().padStart(3, '0')}` : undefined
+    });
 
-  const mockTeamMembers = useMemo(() => [
-    { id: '1', name: 'Alice Johnson', role: 'Senior QA Engineer', avatar: '👩‍💻', capacity: 8, currentWorkload: 6.5, productivity: 3.2, passRate: 94 },
-    { id: '2', name: 'Bob Smith', role: 'QA Engineer', avatar: '👨‍💻', capacity: 8, currentWorkload: 7.2, productivity: 2.8, passRate: 87 },
-    { id: '3', name: 'Carol Davis', role: 'Test Automation Engineer', avatar: '👩‍🔬', capacity: 8, currentWorkload: 5.5, productivity: 4.1, passRate: 96 },
-    { id: '4', name: 'David Wilson', role: 'QA Engineer', avatar: '👨‍🔧', capacity: 8, currentWorkload: 8.0, productivity: 2.5, passRate: 89 },
-    { id: '5', name: 'Eve Brown', role: 'Performance Tester', avatar: '👩‍💼', capacity: 8, currentWorkload: 4.8, productivity: 3.5, passRate: 92 },
-    { id: '6', name: 'Frank Miller', role: 'Senior QA Engineer', avatar: '👨‍🏫', capacity: 8, currentWorkload: 7.5, productivity: 3.8, passRate: 91 }
-  ], []);
+    let tests: any[] = [];
+    switch (selectedPeriod) {
+      case 'today':
+        // Generate 6 test cases for today
+        for (let i = 0; i < 6; i++) {
+          const hours = Math.floor(Math.random() * 8);
+          const date = new Date(today);
+          date.setHours(9 + hours);
+          tests.push(generateTestCase(i, date));
+        }
+        break;
+      
+      case 'week':
+        // Generate 15 test cases spread across the last 7 days
+        for (let i = 0; i < 15; i++) {
+          const days = Math.floor(Math.random() * 7);
+          const hours = Math.floor(Math.random() * 8);
+          const date = new Date(today);
+          date.setDate(date.getDate() - days);
+          date.setHours(9 + hours);
+          tests.push(generateTestCase(i, date));
+        }
+        break;
+      
+      case 'month':
+        // Generate 30 test cases spread across the last 30 days
+        for (let i = 0; i < 30; i++) {
+          const days = Math.floor(Math.random() * 30);
+          const hours = Math.floor(Math.random() * 8);
+          const date = new Date(today);
+          date.setDate(date.getDate() - days);
+          date.setHours(9 + hours);
+          tests.push(generateTestCase(i, date));
+        }
+        break;
+    }
+    
+    return tests.sort((a, b) => b.executedAt.getTime() - a.executedAt.getTime());
+  }, [selectedPeriod]);
 
-  // Calculate metrics
+  const mockTeamMembers = useMemo(() => {
+    const baseMembers = [
+      { id: '1', name: 'Alice Johnson', role: 'Senior QA Engineer', avatar: '👩‍💻' },
+      { id: '2', name: 'Bob Smith', role: 'QA Engineer', avatar: '👨‍💻' },
+      { id: '3', name: 'Carol Davis', role: 'Test Automation Engineer', avatar: '👩‍🔬' },
+      { id: '4', name: 'David Wilson', role: 'QA Engineer', avatar: '👨‍🔧' },
+      { id: '5', name: 'Eve Brown', role: 'Performance Tester', avatar: '👩‍💼' },
+      { id: '6', name: 'Frank Miller', role: 'Senior QA Engineer', avatar: '👨‍🏫' }
+    ];
+
+    // Adjust metrics based on time period
+    return baseMembers.map(member => {
+      const memberTests = mockTestExecutions.filter(t => t.assignee === member.name);
+      const capacity = selectedPeriod === 'today' ? 8 : selectedPeriod === 'week' ? 40 : 160;
+      const currentWorkload = selectedPeriod === 'today' 
+        ? Math.min(capacity, 4 + Math.random() * 6)  // 4-10 hours for today
+        : selectedPeriod === 'week'
+          ? Math.min(capacity, 30 + Math.random() * 15) // 30-45 hours for week
+          : Math.min(capacity, 120 + Math.random() * 50); // 120-170 hours for month
+      
+      const completed = memberTests.filter(t => t.status === 'passed' || t.status === 'failed').length;
+      const passed = memberTests.filter(t => t.status === 'passed').length;
+      const totalHours = memberTests.reduce((sum, test) => sum + (test.duration || 0), 0) / 60;
+      
+      return {
+        ...member,
+        capacity,
+        currentWorkload: Math.round(currentWorkload * 10) / 10,
+        productivity: totalHours > 0 ? Math.round((completed / totalHours) * 10) / 10 : 2.5 + Math.random(),
+        passRate: completed > 0 ? Math.round((passed / completed) * 100) : 85 + Math.floor(Math.random() * 10)
+      };
+    });
+  }, [mockTestExecutions, selectedPeriod]);
+
+  // Calculate metrics based on selected period
   const testMetrics = useMemo((): TestMetrics => {
     const totalTests = mockTestExecutions.length;
     const completed = mockTestExecutions.filter(t => t.status === 'passed' || t.status === 'failed').length;
@@ -63,6 +135,22 @@ export default function TestManagementDashboard() {
     const inProgress = mockTestExecutions.filter(t => t.status === 'in-progress').length;
     const passRate = completed > 0 ? Math.round((passed / completed) * 100) : 0;
     
+    // Calculate velocity based on period
+    let velocity;
+    switch (selectedPeriod) {
+      case 'today':
+        velocity = completed; // All completed tests today
+        break;
+      case 'week':
+        velocity = Math.round(completed / 7); // Average per day over the week
+        break;
+      case 'month':
+        velocity = Math.round(completed / 30); // Average per day over the month
+        break;
+      default:
+        velocity = 0;
+    }
+    
     return {
       totalTests,
       completed,
@@ -71,9 +159,9 @@ export default function TestManagementDashboard() {
       blocked,
       inProgress,
       passRate,
-      velocity: 12 // Mock velocity
+      velocity
     };
-  }, [mockTestExecutions]);
+  }, [mockTestExecutions, selectedPeriod]);
 
   // Test execution data for charts
   const statusDistribution = [
@@ -85,9 +173,13 @@ export default function TestManagementDashboard() {
 
   const moduleProgress = useMemo(() => {
     const modules = ['Authentication', 'Payments', 'Account', 'Reports', 'Admin'];
+    
+    // Get base numbers based on time period
+    const baseTotal = selectedPeriod === 'today' ? 10 : selectedPeriod === 'week' ? 25 : 50;
+    
     return modules.map(module => {
       const moduleTests = mockTestExecutions.filter(t => t.module === module);
-      const total = moduleTests.length || 5; // Mock some tests even if none exist
+      const total = moduleTests.length || Math.floor(baseTotal / modules.length);
       const passed = moduleTests.filter(t => t.status === 'passed').length;
       const failed = moduleTests.filter(t => t.status === 'failed').length;
       const progress = total > 0 ? Math.round(((passed + failed) / total) * 100) : Math.floor(Math.random() * 100);
@@ -102,17 +194,35 @@ export default function TestManagementDashboard() {
         passRate: passed + failed > 0 ? Math.round((passed / (passed + failed)) * 100) : 0
       };
     });
-  }, [mockTestExecutions]);
+  }, [mockTestExecutions, selectedPeriod]);
 
-  const velocityTrend = [
-    { day: 'Mon', tests: 8 },
-    { day: 'Tue', tests: 12 },
-    { day: 'Wed', tests: 10 },
-    { day: 'Thu', tests: 15 },
-    { day: 'Fri', tests: 9 },
-    { day: 'Sat', tests: 6 },
-    { day: 'Sun', tests: 4 }
-  ];
+  // Generate velocity trend data based on selected period
+  const velocityTrend = useMemo(() => {
+    const today = new Date();
+    switch (selectedPeriod) {
+      case 'today':
+        // Show hourly data for today
+        return Array.from({ length: 8 }, (_, i) => ({
+          label: `${9 + i}:00`,
+          tests: Math.floor(Math.random() * 4) + 1
+        }));
+      
+      case 'week':
+        // Show daily data for the week
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        return days.map(day => ({
+          label: day,
+          tests: Math.floor(Math.random() * 8) + 4
+        }));
+      
+      case 'month':
+        // Show weekly data for the month
+        return Array.from({ length: 4 }, (_, i) => ({
+          label: `Week ${i + 1}`,
+          tests: Math.floor(Math.random() * 20) + 15
+        }));
+    }
+  }, [selectedPeriod]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -254,7 +364,7 @@ export default function TestManagementDashboard() {
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={velocityTrend}>
-                <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="label" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip />
                 <Line
@@ -325,7 +435,7 @@ export default function TestManagementDashboard() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600">Workload</span>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getWorkloadColor(member.currentWorkload, member.capacity)}`}>
-                    {member.currentWorkload}h / {member.capacity}h
+                    {member.currentWorkload}{selectedPeriod === 'today' ? 'h' : selectedPeriod === 'week' ? 'h/w' : 'h/m'} / {member.capacity}{selectedPeriod === 'today' ? 'h' : selectedPeriod === 'week' ? 'h/w' : 'h/m'}
                   </span>
                 </div>
                 
@@ -347,7 +457,7 @@ export default function TestManagementDashboard() {
                 
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600">Productivity</span>
-                  <span className="font-medium text-gray-900">{member.productivity} tests/hour</span>
+                  <span className="font-medium text-gray-900">{member.productivity} tests/{selectedPeriod === 'today' ? 'hour' : selectedPeriod === 'week' ? 'day' : 'week'}</span>
                 </div>
               </div>
             </div>
