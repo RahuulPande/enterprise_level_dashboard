@@ -99,19 +99,12 @@ export const ActivityStream = () => {
   };
 
   return (
-    <div 
-      className="rounded-xl p-4 border border-white/20 shadow-2xl"
-      style={{
-        background: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)'
-      }}
-    >
+    <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 shadow-lg">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-white drop-shadow-md">Live Activity Stream</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Live Activity Stream</h3>
         <div className="flex items-center space-x-2">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-white/80">Live</span>
+          <span className="text-sm text-gray-600">Live</span>
         </div>
       </div>
       
@@ -131,10 +124,10 @@ export const ActivityStream = () => {
                   <activity.icon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white font-medium leading-tight">
+                  <p className="text-sm text-gray-900 font-medium leading-tight">
                     {activity.text}
                   </p>
-                  <p className="text-xs text-white/70 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     {activity.time}
                   </p>
                 </div>

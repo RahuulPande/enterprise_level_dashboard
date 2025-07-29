@@ -49,8 +49,6 @@ import {
 } from '@/components/ui/AnimatedMetrics';
 import { ActivityStream } from '@/components/ui/ActivityStream';
 import { IncidentHeatmap } from '@/components/ui/IncidentHeatmap';
-import { ParticleBackground, FloatingElements } from '@/components/ui/ParticleBackground';
-import { SuccessStories } from '@/components/ui/SuccessStories';
 import { InteractiveROI } from '@/components/ui/InteractiveROI';
 
 // Animated Counter Component
@@ -457,25 +455,18 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
   ];
 
   return (
-    <div className="min-h-screen relative">
-      {/* Particle Background */}
-      <ParticleBackground />
-      
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="relative py-20 px-6 overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)'
-        }}
       >
-        {/* Enhanced Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-blue-600/20 to-indigo-700/20" />
-        <div className="absolute top-20 left-20 w-64 h-64 bg-purple-400/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-400/20 rounded-full blur-3xl" />
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10" />
+        <div className="absolute top-20 left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl" />
         
         <div className="relative max-w-7xl mx-auto text-center">
           <motion.div
@@ -483,15 +474,13 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
               AI-Powered IT Health Monitor
               <br />
-              <span className="text-3xl md:text-5xl bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                for Enterprise Banking
-              </span>
+              <span className="text-3xl md:text-5xl">for Enterprise Banking</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-4xl mx-auto drop-shadow-lg">
+            <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto">
               Transforming IT Operations with Predictive Intelligence
             </p>
           </motion.div>
@@ -501,14 +490,14 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto"
           >
             <PulsingMetricCard delay={0.4}>
               <div className="flex items-center justify-center mb-2">
-                <DollarSign className="w-6 h-6 text-green-400 mr-2" />
-                <span className="text-sm font-semibold text-white/80">Current Savings</span>
+                <DollarSign className="w-6 h-6 text-green-600 mr-2" />
+                <span className="text-sm font-semibold text-gray-600">Current Savings</span>
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-green-400">
+              <div className="text-2xl md:text-3xl font-bold text-green-600">
                 <GlowingAnimatedCounter 
                   end={liveMetrics.currentSavings} 
                   prefix="$" 
@@ -523,15 +512,15 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
 
             <PulsingMetricCard delay={0.5}>
               <div className="flex items-center justify-center mb-2">
-                <Gauge className="w-6 h-6 text-blue-400 mr-2" />
-                <span className="text-sm font-semibold text-white/80">Uptime</span>
+                <Gauge className="w-6 h-6 text-blue-600 mr-2" />
+                <span className="text-sm font-semibold text-gray-600">Uptime</span>
               </div>
               <div className="flex justify-center">
                 <AnimatedCircularProgress 
                   percentage={liveMetrics.uptime} 
                   size={80} 
                   strokeWidth={8}
-                  color="#60A5FA"
+                  color="#2563EB"
                 />
               </div>
               <AnimatedSparkline data={[99.1, 99.3, 99.5, 99.7, 99.8, 99.9]} />
@@ -539,10 +528,10 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
 
             <PulsingMetricCard delay={0.6}>
               <div className="flex items-center justify-center mb-2">
-                <Shield className="w-6 h-6 text-purple-400 mr-2" />
-                <span className="text-sm font-semibold text-white/80">Issues Prevented</span>
+                <Shield className="w-6 h-6 text-purple-600 mr-2" />
+                <span className="text-sm font-semibold text-gray-600">Issues Prevented</span>
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-purple-400">
+              <div className="text-2xl md:text-3xl font-bold text-purple-600">
                 <GlowingAnimatedCounter 
                   end={liveMetrics.issuesPrevented} 
                   glowColor="#EF4444"
@@ -554,10 +543,10 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
 
             <PulsingMetricCard delay={0.7}>
               <div className="flex items-center justify-center mb-2">
-                <Clock className="w-6 h-6 text-orange-400 mr-2" />
-                <span className="text-sm font-semibold text-white/80">Time Saved</span>
+                <Clock className="w-6 h-6 text-orange-600 mr-2" />
+                <span className="text-sm font-semibold text-gray-600">Time Saved</span>
               </div>
-              <div className="text-2xl md:text-3xl font-bold text-orange-400">
+              <div className="text-2xl md:text-3xl font-bold text-orange-600">
                 <AnimatedCounter 
                   end={liveMetrics.timeSaved} 
                   suffix=" hrs" 
@@ -570,51 +559,25 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
         </div>
       </motion.section>
 
-      {/* ROI Calculator Section */}
+      {/* Interactive ROI Calculator Section */}
       <motion.section 
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="py-20 px-6 relative"
-        style={{
-          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-              Proven ROI for Your Banking Operations
-            </h2>
-            <p className="text-xl text-white/90 drop-shadow-md">
-              Real savings calculations for a 100-person IT team
-            </p>
-          </div>
-
-          <InteractiveROI />
-        </div>
-      </motion.section>
-
-      {/* Success Stories Section */}
-      <motion.section 
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="py-20 px-6"
+        className="py-20 px-6 bg-gradient-to-br from-blue-50/50 to-purple-50/50"
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Real Success Stories
+              Interactive ROI Calculator
             </h2>
             <p className="text-xl text-gray-600">
-              See how our AI-powered solution delivers measurable results
+              Customize team size and see real-time savings calculations
             </p>
           </div>
-          
-          <SuccessStories />
+
+          <InteractiveROI />
         </div>
       </motion.section>
 
@@ -636,27 +599,20 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12">
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
             {/* Monthly Savings Trend Chart */}
             <MonthlySavingsChart data={liveMetrics.monthlySavings} />
             
             {/* System Health Gauge */}
-            <div 
-              className="rounded-xl p-6 border border-white/20 shadow-2xl"
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)'
-              }}
-            >
-              <h3 className="text-lg font-semibold text-white mb-4 drop-shadow-md">System Health Score</h3>
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">System Health Score</h3>
               <div className="flex justify-center">
                 <SystemHealthGauge score={liveMetrics.systemHealth} />
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid lg:grid-cols-2 gap-8">
             {/* Incident Prevention Heatmap */}
             <IncidentHeatmap />
             
@@ -696,6 +652,152 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                 delay={index * 0.1}
               />
             ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Impact Metrics Dashboard */}
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-20 px-6"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Measurable Impact Across All Metrics
+            </h2>
+            <p className="text-xl text-gray-600">
+              Real performance improvements in your critical KPIs
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Time Savings Chart */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Time Savings Trend</h3>
+                <TrendingUp className="w-6 h-6 text-green-600" />
+              </div>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={timeSavingsData}>
+                    <defs>
+                      <linearGradient id="timeSavingsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`${value} hours`, 'Time Saved']} />
+                    <Area 
+                      type="monotone" 
+                      dataKey="hours" 
+                      stroke="#10B981" 
+                      strokeWidth={3}
+                      fill="url(#timeSavingsGradient)" 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                Monthly hours saved through automation and predictive monitoring
+              </p>
+            </div>
+
+            {/* Cost Reduction Chart */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Monthly Savings</h3>
+                <DollarSign className="w-6 h-6 text-blue-600" />
+              </div>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={costReductionData}>
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`$${(value as number).toLocaleString()}`, 'Savings']} />
+                    <Bar 
+                      dataKey="savings" 
+                      fill="url(#costGradient)"
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <defs>
+                      <linearGradient id="costGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                      </linearGradient>
+                    </defs>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                Cumulative monthly savings from operational improvements
+              </p>
+            </div>
+
+            {/* Incident Prevention */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">AI Incident Prevention</h3>
+                <Brain className="w-6 h-6 text-purple-600" />
+              </div>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-purple-600 mb-2">
+                  <AnimatedCounter end={1847} />
+                </div>
+                <p className="text-lg text-gray-700 mb-4">Incidents Prevented</p>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <div className="font-bold text-purple-600">
+                      <AnimatedCounter end={180} />
+                    </div>
+                    <div className="text-gray-600">This Month</div>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <div className="font-bold text-purple-600">97.2%</div>
+                    <div className="text-gray-600">Accuracy</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Team Efficiency */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Team Efficiency</h3>
+                <Users className="w-6 h-6 text-green-600" />
+              </div>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Incidents/Month</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-red-500 line-through">45</span>
+                    <ArrowRight className="w-4 h-4 text-gray-400" />
+                    <span className="text-green-600 font-bold">12</span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">MTTR (hours)</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-red-500 line-through">6.0</span>
+                    <ArrowRight className="w-4 h-4 text-gray-400" />
+                    <span className="text-green-600 font-bold">1.5</span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Team Satisfaction</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-red-500 line-through">65%</span>
+                    <ArrowRight className="w-4 h-4 text-gray-400" />
+                    <span className="text-green-600 font-bold">92%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.section>

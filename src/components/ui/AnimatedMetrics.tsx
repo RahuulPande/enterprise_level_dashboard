@@ -5,6 +5,79 @@ import { motion, useAnimation, useInView } from 'framer-motion';
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { Activity, TrendingUp, TrendingDown } from 'lucide-react';
 
+// Standard Animated Counter Component
+export const AnimatedCounter = ({ 
+  end, 
+  duration = 2000, 
+  prefix = '', 
+  suffix = '', 
+  decimals = 0,
+  className = '' 
+}: {
+  end: number;
+  duration?: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+  className?: string;
+}) => {
+  const [count, setCount] = useState(0);
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const inView = useInView(ref);
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6 }
+      });
+
+      let startTime: number;
+      const startCount = 0;
+      
+      const updateCount = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentCount = startCount + (end - startCount) * easeOutQuart;
+        
+        setCount(currentCount);
+        
+        if (progress < 1) {
+          requestAnimationFrame(updateCount);
+        } else {
+          setCount(end);
+        }
+      };
+      
+      requestAnimationFrame(updateCount);
+    }
+  }, [inView, end, duration, controls]);
+
+  const formatNumber = (num: number) => {
+    if (decimals === 0) {
+      return Math.floor(num).toLocaleString();
+    }
+    return num.toFixed(decimals);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={controls}
+      className={className}
+    >
+      <span>
+        {prefix}{formatNumber(count)}{suffix}
+      </span>
+    </motion.div>
+  );
+};
+
 // Animated Circular Progress Component
 export const AnimatedCircularProgress = ({ 
   percentage, 
@@ -333,30 +406,25 @@ export const PulsingMetricCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={controls}
       whileHover={{
-        scale: 1.05,
-        boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)"
+        scale: 1.02,
+        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)"
       }}
-      className={`relative p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 ${className}`}
-      style={{
-        background: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)'
-      }}
+      className={`relative p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300 ${className}`}
     >
       <motion.div
         animate={{
           boxShadow: [
-            "0 0 0 rgba(255, 255, 255, 0)",
-            "0 0 30px rgba(255, 255, 255, 0.2)",
-            "0 0 0 rgba(255, 255, 255, 0)"
+            "0 0 0 rgba(16, 185, 129, 0)",
+            "0 0 20px rgba(16, 185, 129, 0.1)",
+            "0 0 0 rgba(16, 185, 129, 0)"
           ]
         }}
         transition={{
-          duration: 4,
+          duration: 3,
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute inset-0 rounded-2xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
       />
       {children}
     </motion.div>
@@ -384,14 +452,9 @@ export const MonthlySavingsChart = ({ data }: { data: any[] }) => {
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={controls}
-      className="rounded-xl p-6 border border-white/20 shadow-2xl"
-      style={{
-        background: 'rgba(255, 255, 255, 0.1)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)'
-      }}
+      className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50"
     >
-      <h3 className="text-lg font-semibold text-white mb-4 drop-shadow-md">Monthly Savings Trend</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Savings Trend</h3>
       <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={data}>
           <defs>
