@@ -32,7 +32,9 @@ import {
   Gauge
 } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
+import { Service, ServiceType, ServiceStatus } from '@/lib/types';
 import useDashboardStore from '@/store/dashboard';
+import { formatPercentage } from '@/lib/utils/formatters';
 import ServiceDetailModal from '@/components/dashboard/ServiceDetailModal';
 import ServiceTopology from '@/components/dashboard/ServiceTopology';
 
@@ -611,7 +613,7 @@ export default function ServiceHealthSection() {
                                   </div>
                                   <div className="flex items-center space-x-1">
                                     <Gauge className="w-3 h-3" />
-                                    <span>{service.uptime?.toFixed(2)}%</span>
+                                    <span>{formatPercentage(service.uptime || 0)}</span>
                                   </div>
                                   {service.health > 90 ? 
                                     <TrendingUp className="w-3 h-3 text-green-500" /> :
@@ -749,7 +751,7 @@ export default function ServiceHealthSection() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {service.uptime?.toFixed(2)}%
+                        {formatPercentage(service.uptime || 0)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button

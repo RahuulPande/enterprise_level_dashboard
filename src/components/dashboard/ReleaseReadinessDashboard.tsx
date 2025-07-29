@@ -32,6 +32,7 @@ import {
   CircularProgressbar, 
   buildStyles 
 } from 'react-circular-progressbar';
+import { formatPercentage } from '@/lib/utils/formatters';
 import 'react-circular-progressbar/dist/styles.css';
 import { 
   BarChart, 
@@ -322,7 +323,7 @@ export default function ReleaseReadinessDashboard({ className = '' }: ReleaseRea
         // Simulate progress updates
         setTestingPhases(prev => prev.map(phase => ({
           ...phase,
-          progress: Math.min(100, phase.progress + Math.random() * 2)
+          progress: Math.min(100, Math.round((phase.progress + Math.random() * 2) * 100) / 100)
         })));
       }, 10000);
       
@@ -498,12 +499,11 @@ export default function ReleaseReadinessDashboard({ className = '' }: ReleaseRea
                     <div className="w-16 h-16 mx-auto mb-3">
                       <CircularProgressbar
                         value={phase.progress}
-                        text={`${phase.progress}%`}
+                        text={formatPercentage(phase.progress)}
                         styles={buildStyles({
-                          textSize: '20px',
                           pathColor: phase.progress >= 90 ? '#10B981' : phase.progress >= 70 ? '#F59E0B' : '#EF4444',
-                          textColor: '#374151',
-                          trailColor: '#E5E7EB',
+                          textColor: '#1F2937',
+                          trailColor: '#F3F4F6'
                         })}
                       />
                     </div>
@@ -536,7 +536,7 @@ export default function ReleaseReadinessDashboard({ className = '' }: ReleaseRea
                     <p className="text-sm text-gray-600">Lead: {phase.lead}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-600">{phase.progress}%</div>
+                    <div className="text-2xl font-bold text-blue-600">{formatPercentage(phase.progress)}</div>
                     <div className="text-sm text-gray-500">Complete</div>
                   </div>
                 </div>
