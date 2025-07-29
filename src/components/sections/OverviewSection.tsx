@@ -257,6 +257,58 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
   const [showSavingsModal, setShowSavingsModal] = useState(false);
   const [isStoryPlaying, setIsStoryPlaying] = useState(true);
   const [activitySidebarOpen, setActivitySidebarOpen] = useState(false);
+  const [isDemoRunning, setIsDemoRunning] = useState(false);
+
+  // Live Demo Tour - showcases different sections of the dashboard
+  const handleLiveDemo = async () => {
+    if (!onNavigate || isDemoRunning) return;
+    
+    setIsDemoRunning(true);
+    
+    // Demo tour sequence
+    const demoSequence = [
+      { section: 'service-health', delay: 1000, message: 'Real-time Service Health Monitoring' },
+      { section: 'incidents-alerts', delay: 3000, message: 'AI-Powered Incident Detection' },
+      { section: 'ai-intelligence', delay: 3000, message: 'Predictive Analytics in Action' },
+      { section: 'performance', delay: 3000, message: 'Performance Monitoring Dashboard' },
+      { section: 'overview', delay: 2000, message: 'Demo Complete!' }
+    ];
+
+    // Show demo notification
+    const showDemoMessage = (message: string) => {
+      // Create a temporary notification
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300';
+      notification.innerHTML = `
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+          <span>${message}</span>
+        </div>
+      `;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 2500);
+    };
+
+    try {
+      for (const step of demoSequence) {
+        await new Promise(resolve => setTimeout(resolve, step.delay));
+        showDemoMessage(step.message);
+        onNavigate(step.section);
+      }
+    } catch (error) {
+      console.error('Demo tour error:', error);
+    } finally {
+      setIsDemoRunning(false);
+    }
+  };
 
   // Calculate system health
   const systemHealth = useMemo(() => {
@@ -478,8 +530,35 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
               </div>
 
               <div className="text-center">
-                <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                  See Live Demo →
+                <div className="mb-4">
+                  <p className="text-sm text-gray-600 mb-2">
+                    Experience our AI-powered dashboard features in action
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    ✨ Guided tour through Service Health, AI Intelligence, Performance Monitoring
+                  </p>
+                </div>
+                <button 
+                  onClick={handleLiveDemo}
+                  disabled={isDemoRunning}
+                  className={`px-8 py-3 rounded-lg font-medium transition-all duration-300 ${
+                    isDemoRunning 
+                      ? 'bg-gray-400 text-white cursor-not-allowed' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg hover:scale-105 active:scale-95'
+                  }`}
+                >
+                  {isDemoRunning ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Running Demo...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <PlayCircle className="w-5 h-5" />
+                      <span>See Live Demo</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  )}
                 </button>
               </div>
             </motion.div>
