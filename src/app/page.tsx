@@ -82,6 +82,21 @@ export default function Dashboard() {
         setIsShortcutsOpen(false);
       }
 
+      // Live Demo shortcut (Ctrl+L)
+      if ((event.metaKey || event.ctrlKey) && event.key === 'l') {
+        event.preventDefault();
+        // Trigger live demo if on overview section
+        if (currentSection === 'overview') {
+          const overviewElement = document.querySelector('[data-section="overview"]');
+          if (overviewElement) {
+            const liveDemoButton = overviewElement.querySelector('button[data-demo-trigger]') as HTMLButtonElement;
+            if (liveDemoButton && !liveDemoButton.disabled) {
+              liveDemoButton.click();
+            }
+          }
+        }
+      }
+
       // Demo shortcuts
       if (event.ctrlKey) {
         const shortcut = `ctrl+${event.key}`;
@@ -127,7 +142,7 @@ export default function Dashboard() {
 
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isDemoMode, currentScenario, startDemoScenario, stopDemoScenario]);
+  }, [isDemoMode, currentScenario, startDemoScenario, stopDemoScenario, currentSection]);
 
   // Get breadcrumb items
   const getBreadcrumbItems = () => {

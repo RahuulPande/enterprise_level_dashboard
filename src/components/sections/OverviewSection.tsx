@@ -395,7 +395,7 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50" data-section="overview">
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -541,6 +541,7 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
                 <button 
                   onClick={handleLiveDemo}
                   disabled={isDemoRunning}
+                  data-demo-trigger="true"
                   className={`px-8 py-3 rounded-lg font-medium transition-all duration-300 ${
                     isDemoRunning 
                       ? 'bg-gray-400 text-white cursor-not-allowed' 

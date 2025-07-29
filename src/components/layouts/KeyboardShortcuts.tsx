@@ -16,10 +16,11 @@ interface Shortcut {
 
 export default function KeyboardShortcuts({ isOpen, onClose }: KeyboardShortcutsProps) {
   const shortcuts: Shortcut[] = [
-    // Navigation
+    // General
     { keys: ['?'], description: 'Show keyboard shortcuts', category: 'General' },
     { keys: ['⌘', 'K'], description: 'Open global search', category: 'General' },
     { keys: ['Esc'], description: 'Close modal/search', category: 'General' },
+    { keys: ['Ctrl', 'L'], description: 'Start live demo tour', category: 'General' },
     
     // Demo shortcuts
     { keys: ['Ctrl', '1'], description: 'Morning health check demo', category: 'Demo' },
