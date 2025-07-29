@@ -524,6 +524,7 @@ export default function LogStreamDashboard() {
           <List
             ref={listRef}
             height={384}
+            width="100%"
             itemCount={filteredLogs.length}
             itemSize={80}
             className="bg-gray-50"

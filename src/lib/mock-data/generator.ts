@@ -61,7 +61,7 @@ export class MockDataGenerator {
         dependencies: [], // Will be populated later
         endpoint: faker.internet.url(),
         responseTime: faker.number.int({ min: 50, max: 500 }),
-        uptime: faker.number.float({ min: 95, max: 99.99, precision: 0.01 })
+        uptime: faker.number.float({ min: 95, max: 99.99, fractionDigits: 2 })
       });
     }
   }
@@ -350,13 +350,15 @@ export class MockDataGenerator {
     return {
       id: faker.string.uuid(),
       serviceId,
+      serviceName: service.name,
       timestamp: new Date(),
       responseTime: service.responseTime + faker.number.int({ min: -50, max: 50 }),
-      errorRate: faker.number.float({ min: 0, max: 5, precision: 0.1 }),
+      errorRate: faker.number.float({ min: 0, max: 5, fractionDigits: 1 }),
       throughput: faker.number.int({ min: 100, max: 1000 }),
-      cpuUsage: faker.number.float({ min: 20, max: 80, precision: 0.1 }),
-      memoryUsage: faker.number.float({ min: 30, max: 70, precision: 0.1 }),
-      activeConnections: faker.number.int({ min: 10, max: 500 })
+      cpuUsage: faker.number.float({ min: 20, max: 80, fractionDigits: 1 }),
+      memoryUsage: faker.number.float({ min: 30, max: 70, fractionDigits: 1 }),
+      activeConnections: faker.number.int({ min: 10, max: 500 }),
+      cacheHitRate: faker.number.float({ min: 70, max: 99, fractionDigits: 1 })
     };
   }
 

@@ -241,7 +241,7 @@ export default function SecurityComplianceDashboard() {
     { name: 'Critical', value: mockVulnerabilities.filter(v => v.severity === 'critical').length, color: '#DC2626' },
     { name: 'High', value: mockVulnerabilities.filter(v => v.severity === 'high').length, color: '#EA580C' },
     { name: 'Medium', value: mockVulnerabilities.filter(v => v.severity === 'medium').length, color: '#D97706' },
-    { name: 'Low', value: mockVulnerabilities.filter(v => v.severity === 'low').length, color: '#65A30D' }
+    { name: 'Low', value: 0, color: '#65A30D' }
   ];
 
   // Compliance by framework

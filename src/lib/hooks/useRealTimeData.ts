@@ -9,7 +9,7 @@ export function useRealTimeData(enabled = true, interval = 1000) {
     isDemoMode 
   } = useDashboardStore();
   
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (enabled && isRealTimeEnabled && !isDemoMode) {
