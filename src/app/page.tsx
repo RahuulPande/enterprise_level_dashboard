@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Smartphone, Tablet, Monitor, Wifi } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from '@/components/layouts/Sidebar';
 import MobileBottomNav from '@/components/layouts/MobileBottomNav';
 import GlobalSearch from '@/components/layouts/GlobalSearch';
@@ -13,9 +15,12 @@ import IncidentsAlertsSection from '@/components/sections/IncidentsAlertsSection
 import AIIntelligenceSection from '@/components/sections/AIIntelligenceSection';
 import ReleaseManagementSection from '@/components/sections/ReleaseManagementSection';
 import AnalyticsSection from '@/components/sections/AnalyticsSection';
+import TechnicalDocsSection from '@/components/sections/TechnicalDocsSection';
 import SettingsSection from '@/components/sections/SettingsSection';
 import DemoControlPanel from '@/components/dashboard/DemoControlPanel';
 import GlobalSearchNavigation from '@/components/dashboard/GlobalSearchNavigation';
+import MobileReadyIndicator from '@/components/ui/MobileReadyIndicator';
+import TopStatsBar from '@/components/ui/TopStatsBar';
 import { useRealTimeData, useDemoScenario } from '@/lib/hooks/useRealTimeData';
 import { demoScenarios, demoKeyboardShortcuts } from '@/lib/mock-data/scenarios';
 import useDashboardStore from '@/store/dashboard';
@@ -27,6 +32,7 @@ const sectionComponents = {
   'ai-intelligence': AIIntelligenceSection,
   'release-management': ReleaseManagementSection,
   'analytics': AnalyticsSection,
+  'tech-docs': TechnicalDocsSection,
   'settings': SettingsSection,
 };
 
@@ -35,6 +41,8 @@ export default function Dashboard() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  const [showMobileIndicator, setShowMobileIndicator] = useState(true);
 
   const { 
     isDemoMode,
@@ -97,6 +105,21 @@ export default function Dashboard() {
         }
       }
 
+      // QR Code shortcut (Ctrl+Q)
+      if ((event.metaKey || event.ctrlKey) && event.key === 'q') {
+        event.preventDefault();
+        // Trigger QR code modal if on overview section
+        if (currentSection === 'overview') {
+          const overviewElement = document.querySelector('[data-section="overview"]');
+          if (overviewElement) {
+            const qrButton = overviewElement.querySelector('button[data-qr-trigger]') as HTMLButtonElement;
+            if (qrButton) {
+              qrButton.click();
+            }
+          }
+        }
+      }
+
       // Demo shortcuts
       if (event.ctrlKey) {
         const shortcut = `ctrl+${event.key}`;
@@ -131,6 +154,7 @@ export default function Dashboard() {
               case 'i': setCurrentSection('ai-intelligence'); break;
               case 'r': setCurrentSection('release-management'); break;
               case 'n': setCurrentSection('analytics'); break;
+              case 't': setCurrentSection('tech-docs'); break;
             }
             document.removeEventListener('keydown', handleSecondKey);
           };
@@ -166,6 +190,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      {/* Top Stats Bar */}
+      <TopStatsBar />
+      
       {/* Sidebar Navigation */}
       <Sidebar
         currentSection={currentSection}
@@ -243,6 +270,9 @@ export default function Dashboard() {
 
       {/* Global Search Navigation */}
       <GlobalSearchNavigation />
+
+      {/* Mobile Ready Indicator */}
+      <MobileReadyIndicator />
     </div>
   );
 }

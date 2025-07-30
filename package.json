@@ -1,9 +1,27 @@
 {
   "name": "ai-health-monitor",
-  "version": "1.0.0",
-  "description": "AI-Powered IT Health Monitor for Enterprise Banking - Comprehensive dashboard delivering $16.7M annual savings through predictive intelligence and real-time monitoring",
-  "keywords": ["ai", "healthcare", "monitoring", "banking", "dashboard", "enterprise", "typescript", "nextjs", "react"],
-  "author": "AI Health Monitor Team",
+  "version": "1.2.0",
+  "description": "AI-Powered IT Health Monitor for Enterprise Banking - Comprehensive dashboard delivering $16.7M annual savings through predictive intelligence and real-time monitoring. Built for Vibe Coding Event 2025.",
+  "keywords": [
+    "ai",
+    "healthcare",
+    "monitoring",
+    "banking",
+    "dashboard",
+    "enterprise",
+    "typescript",
+    "nextjs",
+    "react",
+    "roi-calculator",
+    "qr-code",
+    "mobile-ready"
+  ],
+  "author": {
+    "name": "Rahuul Pande",
+    "cognizantId": "152044",
+    "email": "kumar.rahul@cognizant.com",
+    "event": "Vibe Coding Event 2025"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/your-org/ai-health-monitor.git"
@@ -19,12 +37,14 @@
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
     "@tanstack/react-query": "^5.83.0",
+    "@types/qrcode": "^1.5.5",
     "@types/react-window": "^1.8.8",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.11",
     "lucide-react": "^0.532.0",
     "next": "15.4.4",
+    "qrcode": "^1.5.4",
     "react": "19.1.0",
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "19.1.0",

@@ -1,5 +1,8 @@
 # AI Health Monitor Dashboard - Auto Setup Instructions for Cursor
 
+**Developer:** Rahuul Pande (Cognizant ID: 152044) | **Email:** kumar.rahul@cognizant.com  
+**Event:** Vibe Coding Event 2025 | **Version:** 1.2.0 | **Date:** July 30, 2025
+
 ## FOR CURSOR AI: Read these instructions and execute all steps automatically
 
 I have the following TypeScript files in `/Users/rahuulpande/Desktop/AI_ML_Dashboard`:

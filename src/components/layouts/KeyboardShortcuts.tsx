@@ -21,6 +21,7 @@ export default function KeyboardShortcuts({ isOpen, onClose }: KeyboardShortcuts
     { keys: ['⌘', 'K'], description: 'Open global search', category: 'General' },
     { keys: ['Esc'], description: 'Close modal/search', category: 'General' },
     { keys: ['Ctrl', 'L'], description: 'Start live demo tour', category: 'General' },
+    { keys: ['Ctrl', 'Q'], description: 'Show QR code for mobile access', category: 'General' },
     
     // Demo shortcuts
     { keys: ['Ctrl', '1'], description: 'Morning health check demo', category: 'Demo' },
@@ -37,6 +38,7 @@ export default function KeyboardShortcuts({ isOpen, onClose }: KeyboardShortcuts
     { keys: ['g', 'i'], description: 'Go to AI Intelligence', category: 'Navigation' },
     { keys: ['g', 'r'], description: 'Go to Release Management', category: 'Navigation' },
     { keys: ['g', 'n'], description: 'Go to Analytics', category: 'Navigation' },
+    { keys: ['g', 't'], description: 'Go to Technical Docs', category: 'Navigation' },
     
     // Actions
     { keys: ['r'], description: 'Refresh data', category: 'Actions' },

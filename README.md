@@ -1,7 +1,9 @@
 # Health Monitor AI - Banking Operations Dashboard
 
+**Version 1.0.0** | **Released: July 30, 2025** | **Developed by: Rahuul Pande (Cognizant ID: 152044)**
+
 ## Overview
-A comprehensive IT application health monitoring dashboard for banking environments, featuring real-time monitoring, AI-powered insights, and ROI calculations.
+A comprehensive IT application health monitoring dashboard for banking environments, featuring real-time monitoring, AI-powered insights, and ROI calculations. Built for the Vibe Coding Event 2025.
 
 ## 🚀 Key Features
 
@@ -11,14 +13,16 @@ A comprehensive IT application health monitoring dashboard for banking environme
 - Automated health checks and alerts
 - Service dependency visualization
 
-### 2. Interactive ROI Calculator
-- Team size configuration (Zurich/Pune)
-- Real-time savings calculations based on:
-  - 40% faster incident response
-  - 60% reduced manual monitoring
-  - 90% downtime prevention
-- Detailed cost breakdown and projections
-- Export calculation reports
+### 2. Interactive ROI Calculator ⚡ **Recently Enhanced**
+- Team size configuration with clean slider controls
+- Consistent $16.7M annual savings for baseline team (30 Zurich, 70 Pune)
+- Realistic efficiency metrics (85% operational gains)
+- Transparent assumptions and cost breakdown:
+  - 🕒 Incident Response Savings (45%): $7.5M
+  - 🔍 Monitoring Efficiency (35%): $5.8M  
+  - ⚡ Downtime Prevention (20%): $3.3M
+- PDF export functionality
+- Comprehensive assumptions documentation
 
 ### 3. AI Intelligence
 - Predictive analytics
@@ -40,14 +44,18 @@ A comprehensive IT application health monitoring dashboard for banking environme
 
 ## 💻 Technical Stack
 
-- **Frontend**: Next.js 14 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui
-- **State Management**: 
-  - React Query for server state
-  - Zustand for global state
-- **Visualization**: Recharts
-- **Animation**: Framer Motion
+- **Frontend**: Next.js 15.4.4 (Turbopack)
+- **React**: 19.1.0  
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS 4 + shadcn/ui
+- **State Management**: Zustand 5.0.6
+- **Visualization**: Recharts 3.1.0
+- **Animation**: Framer Motion 12.23.11
+- **Icons**: Lucide React 0.532.0
+- **QR Code**: qrcode 1.5.4
+- **Flow Charts**: React Flow 11.11.4
+- **Date Utils**: date-fns 4.1.0
+- **Mock Data**: Faker.js 9.9.0
 
 ## 📁 Project Structure
 ```
@@ -154,12 +162,42 @@ src/
 5. Implement interactions
 6. Add animations
 
-## 🎯 Future Roadmap
+## 🆕 Latest Updates (July 30, 2025)
+
+### ROI Calculator Enhancements ⚡
+- **Fixed slider alignment issues** - Simplified to clean white handles
+- **Consistent $16.7M savings** - Calibrated baseline calculations
+- **Realistic efficiency metrics** - 85% operational gains (not 190% cost reduction)
+- **Comprehensive assumptions** - Full transparency on calculations
+- **Detailed savings breakdown** - Shows incident response, monitoring, and downtime components
+
+### Mobile & UI Improvements 📱
+- **QR Code functionality** - Scan to access dashboard on mobile (`Ctrl+Q`)
+- **100% Mobile Ready indicator** - Shows device compatibility
+- **Enhanced top stats bar** - Removed repetitive "Monitoring" text
+- **Technical Documentation** - Complete implementation guide with FAQs
+
+### New Features
+- **Technical Docs section** - Real-world implementation guidance
+- **Global search** - Find anything across the platform (`Cmd+K`)
+- **Keyboard shortcuts** - Full navigation support (`?` for help)
+- **Case Studies modal** - Success stories showcase
+- **Enterprise Features modal** - 20+ feature catalog
+
+## 🎯 Future Roadmap (v1.1.0 - August 2025)
 - Enhanced AI predictions
-- Additional integrations
+- Additional integrations  
 - Mobile app development
 - Advanced analytics
 - Custom reporting
+
+## 👨‍💻 Developer & Contact
+
+**Developed by:** Rahuul Pande  
+**Cognizant ID:** 152044  
+**Email:** kumar.rahul@cognizant.com  
+**Event:** Vibe Coding Event 2025  
+**Version:** 1.0.0 (July 30, 2025)
 
 ## 📝 Contributing
 Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.

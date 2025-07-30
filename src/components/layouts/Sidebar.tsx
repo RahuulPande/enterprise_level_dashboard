@@ -11,6 +11,7 @@ import {
   Package,
   BarChart3,
   Settings,
+  Book,
   Menu,
   X,
   ChevronLeft,
@@ -67,6 +68,13 @@ const navigationSections: NavigationSection[] = [
     icon: BarChart3,
     path: '/analytics',
     description: 'Performance and cost analytics'
+  },
+  {
+    id: 'tech-docs',
+    name: 'Technical Docs',
+    icon: Book,
+    path: '/tech-docs',
+    description: 'Implementation guides and FAQs'
   },
   {
     id: 'settings',
