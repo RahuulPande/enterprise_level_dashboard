@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,62 +13,55 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Health Monitor AI - Enterprise Dashboard",
-  description: "AI-powered system health monitoring and incident prediction dashboard. Real-time monitoring, predictive analytics, and $16.7M annual savings for enterprise banking.",
+  title: "Health Monitor AI - Enterprise Banking Dashboard",
+  description: "AI-powered IT health monitoring platform delivering $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response for enterprise banking operations.",
   keywords: [
-    "AI monitoring",
-    "health dashboard", 
-    "enterprise banking",
-    "predictive analytics",
-    "incident management",
+    "AI health monitoring",
+    "banking operations",
+    "incident prediction", 
+    "enterprise dashboard",
+    "cost savings",
     "ROI calculator",
-    "real-time monitoring"
+    "system monitoring",
+    "predictive analytics"
   ],
-  authors: [{ name: "Rahuul Pande", url: "https://github.com/RahuulPande" }],
+  authors: [{ name: "Rahuul Pande" }],
   creator: "Rahuul Pande",
-  publisher: "AI Health Monitor",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
-  openGraph: {
-    title: "Health Monitor AI - Enterprise Dashboard",
-    description: "AI-powered system health monitoring with $16.7M annual savings",
-    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-    siteName: "Health Monitor AI",
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Health Monitor AI Dashboard',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Health Monitor AI - Enterprise Dashboard",
-    description: "AI-powered system health monitoring with $16.7M annual savings",
-    images: ['/og-image.png'],
-  },
+  publisher: "Cognizant",
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
   },
-  verification: {
-    google: 'your-google-verification-code',
+  openGraph: {
+    type: "website",
+    siteName: "Health Monitor AI",
+    title: "Health Monitor AI - $16.7M Annual Savings Platform",
+    description: "Transform reactive IT operations into predictive intelligence. 97.2% system health, 50+ incidents prevented daily, 4,500+ banks can benefit.",
+    url: "https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app",
+    images: [
+      {
+        url: "https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Health Monitor AI Dashboard",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Health Monitor AI - Enterprise Banking Platform",
+    description: "AI-powered monitoring delivering $16.7M annual savings. 150+ services, 97.2% health score.",
+    images: ["https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app/og-image.jpg"],
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };
 
 export default function RootLayout({
@@ -82,9 +74,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
+        {children}
       </body>
     </html>
   );

@@ -87,4 +87,15 @@ export const formatUptime = (value: number): string => {
     return formatPercentage(value, 1);
   }
   return formatPercentage(value, 0);
+};
+
+/**
+ * Get the app URL dynamically for production/development
+ * @returns The current app URL
+ */
+export const getAppUrl = (): string => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 }; 

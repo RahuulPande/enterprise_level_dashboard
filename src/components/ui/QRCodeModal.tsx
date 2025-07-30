@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Smartphone, Monitor, Tablet, Wifi, Download, Share2, QrCode } from 'lucide-react';
 import QRCode from 'qrcode';
-import { getQRCodeUrl } from '@/lib/utils/url';
+import { getAppUrl } from '@/lib/utils/formatters';
 
 interface QRCodeModalProps {
   isOpen: boolean;
@@ -17,12 +17,11 @@ export default function QRCodeModal({ isOpen, onClose }: QRCodeModalProps) {
   const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const url = getQRCodeUrl();
-      setCurrentURL(url);
-      
-      // Generate QR code
-      QRCode.toDataURL(url, {
+    const url = getAppUrl();
+    setCurrentURL(url);
+    
+    // Generate QR code
+    QRCode.toDataURL(url, {
         width: 256,
         margin: 2,
         color: {
@@ -35,7 +34,8 @@ export default function QRCodeModal({ isOpen, onClose }: QRCodeModalProps) {
         console.error('Error generating QR code:', err);
       });
 
-      // Detect device type
+    // Detect device type (client-side only)
+    if (typeof window !== 'undefined') {
       const detectDevice = () => {
         const width = window.innerWidth;
         if (width < 768) {

@@ -101,7 +101,7 @@ export default function SettingsConfiguration() {
     setLocalSettings(prev => ({
       ...prev,
       [section]: {
-        ...prev[section],
+        ...(prev as any)[section],
         [key]: value
       }
     }));
@@ -344,14 +344,14 @@ export default function SettingsConfiguration() {
                               </div>
                             </div>
                             <button
-                              onClick={() => handleSettingChange('notifications', notification.key, !localSettings.notifications[notification.key])}
+                              onClick={() => handleSettingChange('notifications', notification.key, !(localSettings.notifications as any)[notification.key])}
                               className={`relative w-12 h-6 rounded-full transition-colors ${
-                                localSettings.notifications[notification.key] ? 'bg-blue-600' : 'bg-gray-300'
+                                (localSettings.notifications as any)[notification.key] ? 'bg-blue-600' : 'bg-gray-300'
                               }`}
                             >
                               <div
                                 className={`absolute w-4 h-4 bg-white rounded-full top-1 transition-transform ${
-                                  localSettings.notifications[notification.key] ? 'translate-x-7' : 'translate-x-1'
+                                  (localSettings.notifications as any)[notification.key] ? 'translate-x-7' : 'translate-x-1'
                                 }`}
                               />
                             </button>
@@ -436,7 +436,7 @@ export default function SettingsConfiguration() {
                             <div className="flex items-center space-x-2">
                               <input
                                 type="number"
-                                value={localSettings.alertThresholds[threshold.key]}
+                                value={(localSettings.alertThresholds as any)[threshold.key]}
                                 onChange={(e) => handleSettingChange('alertThresholds', threshold.key, parseInt(e.target.value))}
                                 className="w-20 p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                               />
@@ -446,7 +446,7 @@ export default function SettingsConfiguration() {
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div 
                               className="bg-blue-600 h-2 rounded-full"
-                              style={{ width: `${Math.min(localSettings.alertThresholds[threshold.key], 100)}%` }}
+                              style={{ width: `${Math.min((localSettings.alertThresholds as any)[threshold.key], 100)}%` }}
                             ></div>
                           </div>
                         </div>
@@ -489,20 +489,20 @@ export default function SettingsConfiguration() {
                               </div>
                               <div className="flex items-center space-x-3">
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  localSettings.integrations[integration.key].enabled 
+                                  (localSettings.integrations as any)[integration.key].enabled 
                                     ? 'bg-green-100 text-green-700' 
                                     : 'bg-gray-100 text-gray-700'
                                 }`}>
-                                  {localSettings.integrations[integration.key].enabled ? 'Connected' : 'Disconnected'}
+                                  {(localSettings.integrations as any)[integration.key].enabled ? 'Connected' : 'Disconnected'}
                                 </span>
                                 <button
                                   onClick={() => handleSettingChange('integrations', integration.key, {
-                                    ...localSettings.integrations[integration.key],
-                                    enabled: !localSettings.integrations[integration.key].enabled
+                                    ...(localSettings.integrations as any)[integration.key],
+                                    enabled: !(localSettings.integrations as any)[integration.key].enabled
                                   })}
                                   className="px-3 py-1 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
                                 >
-                                  {localSettings.integrations[integration.key].enabled ? 'Disconnect' : 'Connect'}
+                                  {(localSettings.integrations as any)[integration.key].enabled ? 'Disconnect' : 'Connect'}
                                 </button>
                               </div>
                             </div>
