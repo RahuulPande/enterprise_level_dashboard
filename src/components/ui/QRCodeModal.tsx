@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Smartphone, Monitor, Tablet, Wifi, Download, Share2, QrCode } from 'lucide-react';
 import QRCode from 'qrcode';
+import { getQRCodeUrl } from '@/lib/utils/url';
 
 interface QRCodeModalProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ export default function QRCodeModal({ isOpen, onClose }: QRCodeModalProps) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const url = window.location.origin;
+      const url = getQRCodeUrl();
       setCurrentURL(url);
       
       // Generate QR code
