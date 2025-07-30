@@ -1,5 +1,21 @@
 # 🚀 Quick Fix Reference Card
 
+## 🚨 #1 MOST COMMON ISSUE: Tailwind CSS v4
+
+### UI Not Styled? Check This FIRST!
+```bash
+# 1. Check version
+npm list tailwindcss
+
+# 2. If v4.x.x, fix globals.css:
+# Replace @tailwind directives with:
+echo '@import "tailwindcss";' > src/app/globals.css.new
+# (then copy your custom CSS below the import)
+
+# 3. Restart
+pkill -f next && npm run dev
+```
+
 ## ⚡ Emergency Commands (Copy & Paste)
 
 ### 🔥 Nuclear Reset (When Everything is Broken)

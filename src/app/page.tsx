@@ -7,6 +7,8 @@ import Sidebar from '@/components/layouts/Sidebar';
 import MobileBottomNav from '@/components/layouts/MobileBottomNav';
 import GlobalSearch from '@/components/layouts/GlobalSearch';
 import KeyboardShortcuts from '@/components/layouts/KeyboardShortcuts';
+import ThemeToggle from '@/components/layouts/ThemeToggle';
+import Breadcrumb from '@/components/layouts/Breadcrumb';
 import OverviewSection from '@/components/sections/OverviewSection';
 import ServiceHealthSection from '@/components/sections/ServiceHealthSection';
 import IncidentsAlertsSection from '@/components/sections/IncidentsAlertsSection';
@@ -166,7 +168,25 @@ export default function Dashboard() {
     return () => document.removeEventListener('keydown', handleKeyPress);
   }, [isDemoMode, currentScenario, startDemoScenario, stopDemoScenario, currentSection]);
 
+  // Get breadcrumb items
+  const getBreadcrumbItems = () => {
+    const sectionNames = {
+      'overview': 'Overview',
+      'service-health': 'Service Health',
+      'incidents-alerts': 'Incidents & Alerts',
+      'ai-intelligence': 'AI Intelligence',
+      'release-management': 'Release Management',
+      'analytics': 'Analytics',
+      'settings': 'Settings'
+    };
 
+    return [
+      {
+        label: sectionNames[currentSection as keyof typeof sectionNames] || 'Unknown',
+        isActive: true
+      }
+    ];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
@@ -179,8 +199,6 @@ export default function Dashboard() {
         onSectionChange={handleSectionChange}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleCollapse}
-        onSearchOpen={() => setIsSearchOpen(true)}
-        onShortcutsOpen={() => setIsShortcutsOpen(true)}
       />
 
       {/* Mobile Bottom Navigation */}
@@ -193,12 +211,45 @@ export default function Dashboard() {
       <main className={`transition-all duration-300 ${
         isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
       } ml-0 min-h-screen pb-20 md:pb-0`}>
-        {/* Section Content - Direct without top bar */}
-        {currentSection === 'overview' ? (
-          <OverviewSection onNavigate={handleNavigateFromOverview} />
-        ) : (
-          <ActiveSectionComponent />
-        )}
+        <div className="pt-4 md:pt-0">
+          {/* Top Bar with Breadcrumbs and Controls */}
+          <div className="flex items-center justify-between p-6 pb-0">
+            <div className="flex-1">
+              <Breadcrumb 
+                items={getBreadcrumbItems()}
+                onNavigate={handleSectionChange}
+              />
+            </div>
+            <div className="flex items-center space-x-3">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                title="Search (⌘K)"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setIsShortcutsOpen(true)}
+                className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                title="Keyboard shortcuts (?)"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Section Content */}
+          {currentSection === 'overview' ? (
+            <OverviewSection onNavigate={handleNavigateFromOverview} />
+          ) : (
+            <ActiveSectionComponent />
+          )}
+        </div>
       </main>
 
       {/* Global Search */}

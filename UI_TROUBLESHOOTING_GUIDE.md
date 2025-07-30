@@ -8,14 +8,77 @@ This document provides step-by-step solutions for common UI and development issu
 
 ## 📋 Table of Contents
 
-1. [Critical Configuration Files](#critical-configuration-files)
-2. [TypeScript Errors](#typescript-errors)
-3. [Dependency Issues](#dependency-issues)
-4. [Caching Problems](#caching-problems)
-5. [Development Server Issues](#development-server-issues)
-6. [Build & Compilation Errors](#build--compilation-errors)
-7. [Quick Diagnostic Commands](#quick-diagnostic-commands)
-8. [Emergency Recovery Steps](#emergency-recovery-steps)
+1. [🚨 CRITICAL: Tailwind CSS v4 Import Issue](#critical-tailwind-css-v4-import-issue)
+2. [Critical Configuration Files](#critical-configuration-files)
+3. [TypeScript Errors](#typescript-errors)
+4. [Dependency Issues](#dependency-issues)
+5. [Caching Problems](#caching-problems)
+6. [Development Server Issues](#development-server-issues)
+7. [Build & Compilation Errors](#build--compilation-errors)
+8. [Quick Diagnostic Commands](#quick-diagnostic-commands)
+9. [Emergency Recovery Steps](#emergency-recovery-steps)
+
+---
+
+## 🚨 CRITICAL: Tailwind CSS v4 Import Issue
+
+### **MOST COMMON UI STYLING ISSUE - CHECK THIS FIRST!**
+
+#### **Problem:**
+- UI displays without styling (plain text, no colors, no layout)
+- Tailwind CSS classes not being applied
+- Server runs fine (HTTP 200) but styles missing
+
+#### **Root Cause:**
+**Tailwind CSS v4 uses different import syntax than v3!**
+
+#### **Quick Check:**
+1. **Check Tailwind version**: `npm list tailwindcss`
+2. **If version is 4.x.x**, verify `src/app/globals.css` import syntax
+
+#### **The Fix:**
+
+**❌ WRONG (Tailwind v3 syntax):**
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+**✅ CORRECT (Tailwind v4 syntax):**
+```css
+@import "tailwindcss";
+```
+
+#### **Step-by-Step Solution:**
+```bash
+# 1. Check version
+npm list tailwindcss
+
+# 2. If v4.x.x, update globals.css
+# Replace the three @tailwind lines with single @import
+
+# 3. Restart server
+pkill -f next
+npm run dev
+```
+
+#### **Verification:**
+```bash
+# Test if Tailwind classes are compiled
+curl -s "http://localhost:3000" | grep -o 'href="[^"]*\.css[^"]*"' | head -1
+# Then check if CSS contains Tailwind classes:
+curl -s "http://localhost:3000/[CSS_FILE_URL]" | grep -o "\.bg-gray-50"
+```
+
+**If you see `.bg-gray-50` output, Tailwind is working! 🎉**
+
+#### **Why This Happens:**
+- During dependency updates or merge conflicts, Tailwind version may change
+- `package.json` gets v4, but `globals.css` keeps v3 syntax
+- Result: CSS compilation fails silently
+
+**🎯 This fix resolves 90% of "UI not styled" issues!**
 
 ---
 

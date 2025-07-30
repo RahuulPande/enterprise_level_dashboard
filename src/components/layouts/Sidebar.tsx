@@ -15,11 +15,7 @@ import {
   Menu,
   X,
   ChevronLeft,
-  ChevronRight,
-  Search,
-  Sun,
-  Moon,
-  Monitor
+  ChevronRight
 } from 'lucide-react';
 
 export interface NavigationSection {
@@ -94,41 +90,17 @@ interface SidebarProps {
   onSectionChange: (section: string) => void;
   isCollapsed?: boolean;
   onToggleCollapse?: () => void;
-  onSearchOpen?: () => void;
-  onShortcutsOpen?: () => void;
 }
 
 export default function Sidebar({ 
   currentSection, 
   onSectionChange, 
   isCollapsed = false, 
-  onToggleCollapse,
-  onSearchOpen,
-  onShortcutsOpen
+  onToggleCollapse 
 }: SidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('light');
   const sidebarRef = useRef<HTMLDivElement>(null);
   const mobileState = useMobileResponsive();
-
-  // Theme toggle function
-  const toggleTheme = () => {
-    const themes: ('light' | 'dark' | 'auto')[] = ['light', 'dark', 'auto'];
-    const currentIndex = themes.indexOf(theme);
-    const nextTheme = themes[(currentIndex + 1) % themes.length];
-    setTheme(nextTheme);
-    
-    // Apply theme to document
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else if (nextTheme === 'light') {
-      document.documentElement.classList.remove('dark');
-    } else {
-      // Auto mode - use system preference
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.classList.toggle('dark', isDark);
-    }
-  };
 
   // Touch gesture support for mobile
   const { touchEventHandlers } = useSwipeGestures({
@@ -153,7 +125,7 @@ export default function Sidebar({
   return (
     <>
       {/* Mobile/Tablet Menu Button */}
-      <div className="md:hidden fixed top-4 left-4 z-60">
+      <div className="md:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className="p-2 bg-white rounded-lg shadow-lg border hover:bg-gray-50 transition-colors"
@@ -169,7 +141,7 @@ export default function Sidebar({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 bg-black/50 z-45"
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
             onClick={() => setIsMobileOpen(false)}
           />
         )}
@@ -183,7 +155,7 @@ export default function Sidebar({
           width: isCollapsed ? '4rem' : '16rem',
           x: isMobileOpen ? 0 : (isCollapsed ? 0 : 0)
         }}
-        className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 shadow-lg z-50 transition-all duration-300 ${
+        className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 shadow-lg z-40 transition-all duration-300 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         } ${mobileState.isMobile ? 'touch-pan-x' : ''}`}
       >
@@ -212,7 +184,6 @@ export default function Sidebar({
               <button
                 onClick={onToggleCollapse}
                 className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-                title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
                 {isCollapsed ? 
                   <ChevronRight className="w-4 h-4 text-gray-500" /> : 
@@ -280,43 +251,8 @@ export default function Sidebar({
           </div>
         </nav>
 
-        {/* Controls & Footer */}
-        <div className="p-4 border-t border-gray-200 space-y-4">
-          {/* Quick Controls */}
-          <div className="flex items-center justify-center space-x-2">
-            {/* Search Button */}
-            <button
-              onClick={onSearchOpen}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors group"
-              title="Search (⌘K)"
-            >
-              <Search className="w-4 h-4 text-gray-500 group-hover:text-gray-700" />
-            </button>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors group"
-              title={`Theme: ${theme}`}
-            >
-              {theme === 'light' && <Sun className="w-4 h-4 text-gray-500 group-hover:text-yellow-500" />}
-              {theme === 'dark' && <Moon className="w-4 h-4 text-gray-500 group-hover:text-blue-500" />}
-              {theme === 'auto' && <Monitor className="w-4 h-4 text-gray-500 group-hover:text-gray-700" />}
-            </button>
-
-            {/* Shortcuts Button */}
-            <button
-              onClick={onShortcutsOpen}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors group"
-              title="Keyboard shortcuts (?)"
-            >
-              <svg className="w-4 h-4 text-gray-500 group-hover:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Footer Info */}
+        {/* Footer */}
+        <div className="p-4 border-t border-gray-200">
           {!isCollapsed && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -334,6 +270,13 @@ export default function Sidebar({
           )}
         </div>
       </motion.aside>
+
+      {/* Main Content Spacer */}
+      <div className={`transition-all duration-300 ${
+        isCollapsed ? 'md:ml-16' : 'md:ml-64'
+      } ml-0`}>
+        {/* This ensures main content doesn't overlap with sidebar */}
+      </div>
     </>
   );
 } 
