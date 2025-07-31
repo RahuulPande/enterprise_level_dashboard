@@ -275,11 +275,20 @@ export default function Dashboard() {
       <footer className="bg-gray-900 text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                IntelliOps AI
-              </span>
-              <span className="text-gray-400">v1.2.0</span>
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/images/intelliops-logo.svg" 
+                alt="IntelliOps AI Logo" 
+                width={32} 
+                height={32}
+                className="opacity-90"
+              />
+              <div className="flex flex-col">
+                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  IntelliOps AI
+                </span>
+                <span className="text-xs text-gray-500">v1.2.0</span>
+              </div>
             </div>
             
             <div className="text-sm text-gray-400">

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IntelliOps AI - Enterprise Banking Dashboard",
-  description: "IntelliOps AI delivers $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response for enterprise banking operations.",
+  title: "IntelliOps AI - Where Operations Become Intelligent",
+  description: "IntelliOps AI: Where Operations Become Intelligent. Delivering $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response for enterprise banking operations.",
   keywords: [
     "AI health monitoring",
     "banking operations",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "IntelliOps AI",
-    title: "IntelliOps AI - $16.7M Annual Savings Platform",
+    title: "IntelliOps AI - Where Operations Become Intelligent",
     description: "Transform reactive IT operations into predictive intelligence. 97.2% system health, 50+ incidents prevented daily, 4,500+ banks can benefit.",
     url: "https://ai-ml-dashboard-5xslwqlur-rahuul-pandes-projects.vercel.app",
     images: [
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IntelliOps AI - Enterprise Banking Platform",
-    description: "IntelliOps AI delivering $16.7M annual savings. 150+ services, 97.2% health score.",
+    title: "IntelliOps AI - Where Operations Become Intelligent",
+    description: "IntelliOps AI: Where Operations Become Intelligent. $16.7M savings, 150+ services, 97.2% health.",
     images: ["https://ai-ml-dashboard-5xslwqlur-rahuul-pandes-projects.vercel.app/og-image.jpg"],
   },
   viewport: {
@@ -71,6 +71,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/images/intelliops-logo.svg" />
+        <link rel="apple-touch-icon" href="/images/intelliops-logo.svg" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

@@ -790,9 +790,37 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-              IntelliOps AI
-            </h1>
+            {/* Logo and Brand Section */}
+            <div className="flex flex-col items-center mb-6">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 1, delay: 0.3, type: "spring", stiffness: 100 }}
+                className="mb-4"
+              >
+                <img 
+                  src="/images/intelliops-logo.svg" 
+                  alt="IntelliOps AI Logo" 
+                  width={80} 
+                  height={80}
+                  className="drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                />
+              </motion.div>
+              
+              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                IntelliOps AI
+              </h1>
+              
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-xl md:text-2xl text-gray-700 font-medium mb-4 italic"
+              >
+                "Where Operations Become Intelligent"
+              </motion.p>
+            </div>
+            
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 mb-6">
               Developed by Rahuul Pande | Vibe Coding 2025 | Cognizant
             </p>
