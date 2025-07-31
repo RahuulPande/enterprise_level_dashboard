@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Health Monitor AI - Enterprise Banking Dashboard",
-  description: "AI-powered IT health monitoring platform delivering $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response for enterprise banking operations.",
+  title: "IntelliOps AI - Enterprise Banking Dashboard",
+  description: "IntelliOps AI delivers $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response for enterprise banking operations.",
   keywords: [
     "AI health monitoring",
     "banking operations",
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Health Monitor AI",
-    title: "Health Monitor AI - $16.7M Annual Savings Platform",
+    siteName: "IntelliOps AI",
+    title: "IntelliOps AI - $16.7M Annual Savings Platform",
     description: "Transform reactive IT operations into predictive intelligence. 97.2% system health, 50+ incidents prevented daily, 4,500+ banks can benefit.",
-    url: "https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app",
+    url: "https://ai-ml-dashboard-5xslwqlur-rahuul-pandes-projects.vercel.app",
     images: [
       {
-        url: "https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app/og-image.jpg",
+        url: "https://ai-ml-dashboard-5xslwqlur-rahuul-pandes-projects.vercel.app/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Health Monitor AI Dashboard",
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Health Monitor AI - Enterprise Banking Platform",
-    description: "AI-powered monitoring delivering $16.7M annual savings. 150+ services, 97.2% health score.",
-    images: ["https://ai-ml-dashboard-fxpbgv2dg-rahuul-pandes-projects.vercel.app/og-image.jpg"],
+    title: "IntelliOps AI - Enterprise Banking Platform",
+    description: "IntelliOps AI delivering $16.7M annual savings. 150+ services, 97.2% health score.",
+    images: ["https://ai-ml-dashboard-5xslwqlur-rahuul-pandes-projects.vercel.app/og-image.jpg"],
   },
   viewport: {
     width: "device-width",

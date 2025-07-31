@@ -19,7 +19,7 @@ import TechnicalDocsSection from '@/components/sections/TechnicalDocsSection';
 import SettingsSection from '@/components/sections/SettingsSection';
 import DemoControlPanel from '@/components/dashboard/DemoControlPanel';
 import GlobalSearchNavigation from '@/components/dashboard/GlobalSearchNavigation';
-import MobileReadyIndicator from '@/components/ui/MobileReadyIndicator';
+
 import TopStatsBar from '@/components/ui/TopStatsBar';
 import { useRealTimeData, useDemoScenario } from '@/lib/hooks/useRealTimeData';
 import { demoScenarios, demoKeyboardShortcuts } from '@/lib/mock-data/scenarios';
@@ -271,8 +271,30 @@ export default function Dashboard() {
       {/* Global Search Navigation */}
       <GlobalSearchNavigation />
 
-      {/* Mobile Ready Indicator */}
-      <MobileReadyIndicator />
+      {/* Footer with Developer Credits */}
+      <footer className="bg-gray-900 text-white py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                IntelliOps AI
+              </span>
+              <span className="text-gray-400">v1.2.0</span>
+            </div>
+            
+            <div className="text-sm text-gray-400">
+              <p>Developed by <span className="text-blue-400 font-medium">Rahuul Pande</span></p>
+              <p>Vibe Coding 2025 | <span className="text-blue-400">Cognizant</span></p>
+            </div>
+            
+            <div className="text-xs text-gray-500">
+              <p>Enterprise Banking Intelligence Platform</p>
+              <p>© 2025 All rights reserved</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 }

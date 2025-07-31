@@ -1,9 +1,9 @@
-# Health Monitor AI - Banking Operations Dashboard
+# IntelliOps AI - Enterprise Banking Intelligence Platform
 
-**Version 1.0.0** | **Released: July 30, 2025** | **Developed by: Rahuul Pande (Cognizant ID: 152044)**
+**Version 1.2.0** | **Released: July 30, 2025** | **Developed by: Rahuul Pande (Cognizant ID: 152044)**
 
 ## Overview
-A comprehensive IT application health monitoring dashboard for banking environments, featuring real-time monitoring, AI-powered insights, and ROI calculations. Built for the Vibe Coding Event 2025.
+IntelliOps AI is a comprehensive enterprise banking intelligence platform delivering $16.7M annual savings through predictive intelligence, real-time monitoring, and automated incident response. Built for the Vibe Coding Event 2025.
 
 ## 🚀 Key Features
 

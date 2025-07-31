@@ -790,9 +790,12 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-              AI-Powered IT Health Monitor
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+              IntelliOps AI
             </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 mb-6">
+              Developed by Rahuul Pande | Vibe Coding 2025 | Cognizant
+            </p>
             <p className="text-lg text-gray-600 mb-8">
               Serving 150+ services, preventing 50+ incidents daily
             </p>
@@ -867,33 +870,23 @@ export default function OverviewSection(props: OverviewSectionProps = {}) {
         </div>
       </motion.section>
 
-      {/* Floating Global Applicability Badge */}
+      {/* Floating QR Code Button - Bottom Right */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="fixed top-6 right-6 z-40 space-y-3"
+        className="fixed bottom-6 right-6 z-40"
       >
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse">
-          <div className="flex items-center space-x-2 text-sm font-medium">
-            <span>🌍</span>
-            <span>Applicable to 4,500+ Banks Globally</span>
-          </div>
-        </div>
-        
-        {/* QR Code Button */}
         <motion.button
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
           onClick={() => setQRCodeModalOpen(true)}
           data-qr-trigger="true"
-          className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group w-full"
+          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+          title="Scan QR Code for Mobile Access"
         >
-          <div className="flex items-center space-x-2 text-sm font-medium">
-            <QrCode className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-            <span>📱 Scan for Mobile</span>
-          </div>
+          <QrCode className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
         </motion.button>
       </motion.div>
 
